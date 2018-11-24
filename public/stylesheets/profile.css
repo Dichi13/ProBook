@@ -1,0 +1,67 @@
+.profile-header {
+    background-color: #00374C;
+    display: block;
+    position: relative;
+}
+
+.profile-overview {
+    padding: 5rem 2rem;
+    text-align: center;
+    color: #fff;
+    font-size: 5rem;
+    line-height: 1;
+}
+
+.profile-overview p {
+    margin-top: 1rem;
+}
+
+.img-div {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 10px solid #f2d800;
+    background-color: #fff;
+    margin: auto;
+}
+
+.img-div img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#edit-img {
+    position: absolute;
+    top: 3rem;
+    right: 3rem;
+    width: 4rem;
+    height: 4rem;
+}
+
+.section-profile-details {
+    margin: 2rem 2rem;
+    font-size: 2rem;
+}
+
+#icon {
+    width: 2rem;
+    height: 2rem;
+    vertical-align: middle;
+}
+
+.content {
+    margin-left: 3rem;
+    line-height: 5rem;
+}
+
+.left {
+    float: left;
+    width: 30%;
+}
+
+.right {
+    float: right;
+    width: 70%;
+}

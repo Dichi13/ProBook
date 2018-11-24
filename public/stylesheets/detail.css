@@ -1,0 +1,159 @@
+.section-book-details, .section-order, .section-reviews {
+    padding: 2rem 2rem;
+    display: inline-block;
+    width: 100%;
+}
+
+.left {
+    margin-right: 150px;
+}
+
+.right {
+    float: right;
+    width: 150px;
+    text-align: center;
+    padding-top: 2rem;
+    display: block;
+}
+
+.img-thumbnail {
+    border: 1px solid #333;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+}
+
+.img-avatar {
+    border: 1px solid #333;
+    width: 100px;
+    height: 100px;
+    float: left;
+    margin-right: 2rem;
+}
+
+.img-thumbnail img, .img-avatar img, .review-star img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.rating {
+    margin: 1rem;
+}
+
+.rating p {
+    font-weight: 700;
+}
+
+.heading-tertiary {
+    color: #00374c;
+    font-size: 5rem;
+}
+
+.username {
+    color: #555;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.btn-order {
+    cursor: pointer;
+    background-color: #00ACF0;
+    border: 1px solid #00ACF0;
+    border-radius: 2px;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    width: 100px;
+    margin-top: 30px;
+}
+
+.align-right {
+    text-align: right;
+    margin-right: 2rem;
+}
+
+.reviews {
+    margin-bottom: 3rem;
+    display: flow-root;
+}
+
+.review-content {
+    margin-right: 100px;
+}
+
+.review-content p {
+    line-height: 1.35;
+}
+
+.review-rating {
+    text-align: center;
+    float: right;
+    width: 100px;
+}
+
+.review-star {
+    width: 50px;
+    height: 50px;
+}
+
+.review-star-small {
+    width: 25px;
+    height: 25px;
+}
+
+.modal {
+    /* backdrop */
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(1.1);
+    visibility: hidden;
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+}
+
+.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+#close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: -25px;
+}
+
+#close:hover,
+#close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.img-checked {
+    float: left;
+    margin-right: 20px;
+    width: 50px;
+    height: 50px;    
+}

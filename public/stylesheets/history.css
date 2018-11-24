@@ -1,0 +1,53 @@
+.img-div {
+    border: 1px solid #333;
+    width: 150px;
+    height: 150px;
+    float: left;
+    margin-right: 10px;
+    text-align: center;
+}
+
+img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.section-book {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto;
+    grid-gap: 10px;
+    margin: 2rem 2rem;
+    margin-bottom: 5rem;
+}
+
+.book-title {
+    color: #FF4700;
+    font-size: 25px;
+}
+
+.book-detail {
+    font-size: 20px;
+    grid-column: 1/6;
+}
+
+.order-number {
+    float: right;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: right;
+}
+
+.btn-review {
+    cursor: pointer;
+    background-color: #00ACF0;
+    border: 1px solid #00ACF0;
+    border-radius: 2px;
+    color: white;
+    font-size: 20px;
+    width: 100px;
+    margin-top: 30px;
+}
+
+.btn-review:hover {
+    background-color: rgb(11, 118, 241);
+}

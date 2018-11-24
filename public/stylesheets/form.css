@@ -1,0 +1,96 @@
+.container {
+    /* width: 100%; */
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+h1 {
+    font-family: 'Oswald', sans-serif;
+    text-align: center;
+}
+
+div {
+    font-family: 'Nunito', sans-serif;
+}
+
+.wrapper {
+    margin-top: 200px;
+    border-style: solid;
+    border-width: 40px 4px 40px 4px;
+    border-color: rgb(0, 174, 239);
+    border-radius: 5px;
+    width: 400px;
+    margin-left: 450px;
+    text-align: center;
+    background-image: url("../../public/images/polkadot.png");
+    background-size: auto;
+}
+
+.wrapper label, h1 {
+    letter-spacing: 2px;
+}
+
+.input-field {
+    display: flex;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.l {
+    flex: 50%;
+    text-align: right;
+}
+
+.r {
+    flex: 50%;
+    margin-left: 20px;
+    text-align: left;
+}
+
+.check-img {
+    text-align: center;
+    transform: translateY(25%);
+    width: 1rem;
+    visibility: visible;
+    display: none;
+}
+
+.input-container > input{
+    width:80%;
+}
+
+.have {
+    margin-right: 150px;
+    color: black;
+    cursor: pointer;
+}
+
+.have:hover {
+    color: blue;
+}
+
+.btn-login {
+    cursor: pointer;
+    border: 2px solid rgb(224, 108, 13);
+    font-size: 25px;
+    color: rgb(224, 108, 13);
+    background: transparent;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-login:hover {
+    color: orange;
+}
+
+textarea {
+    resize: none;
+}
+
+.r .form-notif {
+    font-size: .8rem;
+    color: red;
+}
