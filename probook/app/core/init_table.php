@@ -35,18 +35,19 @@
                         )";
 
         $sqlCreateToken = "CREATE TABLE IF NOT EXISTS token (
-                            userid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                            userid INT(6) UNSIGNED PRIMARY KEY,
                             token VARCHAR(15),
-                            expire INT UNSIGNED
+                            expire INT UNSIGNED,
+                            FOREIGN KEY (userid) REFERENCES user(userid)
                         )";
 
-        // use exec() because no results are returned
+        // use exec() because no results are returw3ned
         $conn->exec($sqlCreateUser);
         // echo "User created successfully<br>";
-        $conn->exec($sqlCreateBook);
-        // echo "Book created successfully<br>";
         $conn->exec($sqlCreatePurchase);
         // echo "Purchase created successfully<br>";
+        $conn->exec($sqlCreateToken);
+        // echo "Token created successfully<br>";
     } catch(PDOException $e) {
         echo $sqlCreateDB . "<br>" . $e->getMessage();
     }
