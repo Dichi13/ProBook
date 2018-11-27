@@ -97,6 +97,13 @@
                         <div class="form-notif" id="telephone-notif"></div>
                     </div>
                 </div>
+                <div class="input-field">
+                    <div class="l"><label>Card Number</label></div>
+                    <div class="r">
+                        <input type="text" name="nomorkartu" id="card-input">
+                        <div class="form-notif" id="card-notif"></div>
+                    </div>
+                </div>
                 <a href="../login" class="have"><u>Already have an account?</u></a>
                 <button class="btn-login" name="register" id="btn-register">REGISTER</button>
             </form>

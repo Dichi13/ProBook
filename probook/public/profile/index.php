@@ -60,6 +60,10 @@
                         <div class="left"><img src="../images/phone.png" id="icon"> Phone Number</div>
                         <div class="right"><?php echo $phone ?></div>
                     </div>
+                    <div>
+                        <div class="left"><img src="../images/card.png" id="icon"> Card Number</div>
+                        <div class="right"><?php echo $nomorkartu ?></div>
+                    </div>
                 </div>
             </section>
         </main>

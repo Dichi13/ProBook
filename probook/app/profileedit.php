@@ -3,7 +3,7 @@
     if (isset($_COOKIE['has_login'])) {
         $db = mysqli_connect("localhost", "root", "", "probookdb");
         $userid = $_COOKIE['has_login'];
-        $queryUsername = "SELECT nama, username, email, alamat, phone, avatar FROM user WHERE userid = $userid";
+        $queryUsername = "SELECT nama, username, email, alamat, phone, nomorkartu, avatar FROM user WHERE userid = $userid";
 
         $result = mysqli_query($db, $queryUsername);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -12,6 +12,7 @@
         $email = $row['email'];
         $alamat = $row['alamat'];
         $phone = $row['phone'];
+        $nomorkartu = $row['nomorkartu'];
         $avatar = $row['avatar'];
     } else {
         header("location: ../../login/");
@@ -33,7 +34,8 @@
         $editname = $_POST['edit-name'];
         $editaddress = $_POST['edit-address'];
         $editphone = $_POST['edit-phone'];
-        if ($editname !== $nama || $editaddress !== $alamat || $editphone !== $phone) {
+        $editcard = $_POST['edit-card'];
+        if ($editname !== $nama || $editaddress !== $alamat || $editphone !== $phone || $editcard !== $nomorkartu) {
             $haschanged = 1;
         }
 
@@ -45,7 +47,7 @@
                 $result = mysqli_query($db, $queryUsername);
             }
 
-            $queryUsername = "UPDATE user SET nama = '$editname', alamat = '$editaddress', phone = '$editphone' WHERE userid = $userid";
+            $queryUsername = "UPDATE user SET nama = '$editname', alamat = '$editaddress', phone = '$editphone', nomorkartu = '$editcard' WHERE userid = $userid";
             $result = mysqli_query($db, $queryUsername);
 
             header("location: ../");

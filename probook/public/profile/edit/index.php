@@ -57,6 +57,10 @@
                         <div class="left">Phone Number</div>
                         <input type="text" name="edit-phone" class="edit-form__input" value="<?php echo $phone;?>">
                     </div>
+                    <div class="item">
+                        <div class="left">Card Number</div>
+                        <input type="text" name="edit-card" class="edit-form__input" value="<?php echo $nomorkartu;?>">
+                    </div>
                     <button class="form__back-button" onclick="window.location='../'; return false;">Back</button>
                     <input type="submit" value="Save" name="submit" class="form__submit">
                 </form>

@@ -35,9 +35,10 @@ function NewUser($post) {
     $password = md5($post['password_1']);
     $alamat = sanitizeString($post['address']);
     $phone = $post['telephone'];
+    $card = $post['card'];
     $avatar = "user-silhouette.png";
-    $query = "INSERT INTO user (username,password,nama,email,alamat,phone,avatar) 
-    VALUES ('$userName','$password','$fullname','$email','$alamat','$phone','$avatar')"; 
+    $query = "INSERT INTO user (username,password,nama,email,alamat,phone,nomorkartu,avatar) 
+    VALUES ('$userName','$password','$fullname','$email','$alamat','$phone','$card'.$avatar')"; 
     queryMysql($query);
 }
 

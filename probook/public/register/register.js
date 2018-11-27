@@ -15,6 +15,7 @@ var errorName = true;
 var errorTruePassword = true;
 var errorAddress = true;
 var errorPhone = true;
+var errorCard = true;
 
 usernameDOM.addEventListener('keyup', checkUsername);
 emailDOM.addEventListener('keyup', checkEmail);
@@ -23,6 +24,7 @@ nameDOM.addEventListener('keyup', checkName);
 truePassDOM.addEventListener('keyup', checkTruePass);
 addressDOM.addEventListener('keyup', checkAddress);
 phoneDOM.addEventListener('keyup', checkPhone);
+cardDOM.addEventListener('keyup', checkCard);
 
 // formDOM.addEventListener('keyup', check);
 var t = setInterval(check, 50);
@@ -51,6 +53,18 @@ function checkPhone() {
     } else {
         phoneNotif.innerHTML = "";
         errorPhone = false;
+    }
+}
+
+function checkCard() {
+    var cardNotif = document.getElementById("card-notif"); 
+    
+    if(cardDOM.value.length != 16) {
+        cardNotif.innerHTML = "Please insert a 16 digit card number";
+        errorcard = true;
+    } else {
+        cardNotif.innerHTML = "";
+        errorcard = false;
     }
 }
 
@@ -165,7 +179,7 @@ function checkTruePass(){
 }
 
 function check() {
-    if(errorEmail || errorPassword || errorUsername || errorTruePassword || errorName || errorAddress || errorPhone){
+    if(errorEmail || errorPassword || errorUsername || errorTruePassword || errorName || errorAddress || errorPhone || errorCard){
         btnregistDOM.disabled = true;
         btnregistDOM.style.color = '#888';
         btnregistDOM.style.borderColor = '#888';
