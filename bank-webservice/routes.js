@@ -6,4 +6,7 @@ module.exports = function(app) {
 
     app.route('/')
         .get(route.index);
+
+    app.route('/validate/:cardnumber')
+        .get(route.validate)
 };
