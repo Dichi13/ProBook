@@ -1,0 +1,17 @@
+{
+  "name": "bank-webservice",
+  "version": "1.0.0",
+  "description": "a webservice for bank",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Running!\" && exit 1"
+  },
+  "author": "dichi",
+  "license": "ISC"
+}
