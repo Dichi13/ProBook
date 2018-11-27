@@ -20,15 +20,6 @@
                     phone VARCHAR(15) NOT NULL,
                     avatar VARCHAR(100) NOT NULL
                 )";
-        
-        // sql create buku
-        $sqlCreateBook = "CREATE TABLE IF NOT EXISTS book (
-                            bookid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                            bookname VARCHAR(100) NOT NULL,
-                            author VARCHAR(100) NOT NULL,
-                            deskripsi VARCHAR(200) NOT NULL,
-                            bookimg VARCHAR(100) NOT NULL
-                        )";
 
         // sql create purchase
         $sqlCreatePurchase = "CREATE TABLE IF NOT EXISTS purchase (
@@ -41,6 +32,12 @@
                             tanggal DATE,
                             FOREIGN KEY (userid) REFERENCES user(userid),
                             FOREIGN KEY (bookid) REFERENCES book(bookid)
+                        )";
+
+        $sqlCreateToken = "CREATE TABLE IF NOT EXISTS token (
+                            userid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                            token VARCHAR(15),
+                            expire INT UNSIGNED
                         )";
 
         // use exec() because no results are returned

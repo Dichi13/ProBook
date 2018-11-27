@@ -42,12 +42,6 @@ function NewUser($post) {
     queryMysql($query);
 }
 
-function NewBook($bookname, $author, $deskripsi, $bookimg) {
-    $query = "INSERT INTO book (bookname,author,deskripsi,bookimg) 
-    VALUES ('$bookname','$author','$deskripsi','$bookimg')"; 
-    queryMysql($query);
-}
-
 function NewPurchase($userid, $bookid, $jumlah, $date){
     $query = "INSERT INTO purchase (userid,bookid,jumlah,tanggal) 
     VALUES ('$userid','$bookid', '$jumlah', '$date')"; 
