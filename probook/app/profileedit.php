@@ -1,11 +1,10 @@
 <?php
+    include("fetch.php");
     error_reporting(E_ERROR | E_PARSE);
     if (isset($_COOKIE['has_login'])) {
-        $db = mysqli_connect("localhost", "root", "", "probookdb");
-        $userid = $_COOKIE['has_login'];
-        $queryUsername = "SELECT nama, username, email, alamat, phone, nomorkartu, avatar FROM user WHERE userid = $userid";
+        $query = "SELECT nama, username, email, alamat, phone, nomorkartu, avatar FROM user WHERE userid = $userid";
+        $result = queryMysql($query);
 
-        $result = mysqli_query($db, $queryUsername);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $nama = $row['nama'];
         $username = $row['username'];
@@ -14,8 +13,6 @@
         $phone = $row['phone'];
         $nomorkartu = $row['nomorkartu'];
         $avatar = $row['avatar'];
-    } else {
-        header("location: ../../login/");
     }
 
     $dir = "../../images/";

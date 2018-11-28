@@ -18,6 +18,7 @@
                     email VARCHAR(50) NOT NULL,
                     alamat VARCHAR(200) NOT NULL,
                     phone VARCHAR(15) NOT NULL,
+                    nomorkartu VARCHAR(16) NOT NULL,
                     avatar VARCHAR(100) NOT NULL
                 )";
 
@@ -30,13 +31,12 @@
                             rating INT(6) UNSIGNED,
                             jumlah INT(100) UNSIGNED,
                             tanggal DATE,
-                            FOREIGN KEY (userid) REFERENCES user(userid),
-                            FOREIGN KEY (bookid) REFERENCES book(bookid)
+                            FOREIGN KEY (userid) REFERENCES user(userid)
                         )";
 
         $sqlCreateToken = "CREATE TABLE IF NOT EXISTS token (
                             userid INT(6) UNSIGNED PRIMARY KEY,
-                            token VARCHAR(15),
+                            tokenstring VARCHAR(15),
                             expire INT UNSIGNED,
                             FOREIGN KEY (userid) REFERENCES user(userid)
                         )";

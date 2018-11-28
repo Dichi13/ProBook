@@ -35,10 +35,10 @@ function NewUser($post) {
     $password = md5($post['password_1']);
     $alamat = sanitizeString($post['address']);
     $phone = $post['telephone'];
-    $card = $post['card'];
+    $card = $post['nomorkartu'];
     $avatar = "user-silhouette.png";
     $query = "INSERT INTO user (username,password,nama,email,alamat,phone,nomorkartu,avatar) 
-    VALUES ('$userName','$password','$fullname','$email','$alamat','$phone','$card'.$avatar')"; 
+    VALUES ('$userName','$password','$fullname','$email','$alamat','$phone','$card','$avatar')"; 
     queryMysql($query);
 }
 
@@ -57,6 +57,21 @@ function randomString($length = 15) {
 		$str .= $characters[$rand];
 	}
 	return $str;
+}
+
+function getUserIdFromToken($token) {
+    $query = "SELECT * FROM token WHERE tokenstring = '$token'";
+    $result = queryMysql($query);
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    $expire = $row['expire'];
+    $userid = $row['userid'];
+
+    if ($expire > time()) {
+        return $userid;
+    } else {
+        return 0;
+    }
 }
 
 ?>

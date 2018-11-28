@@ -1,5 +1,6 @@
 <?php
-    include("init.php");
+    include("core/functions.php");
+
     if (isset($_GET['username'])) {
         $db = mysqli_connect("localhost", "root", "", "probookdb");
 
@@ -10,8 +11,6 @@
         $result = mysqli_query($db, $query);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-        echo $row["userid"];
-
         $count = mysqli_num_rows($result);
         if ($count == 1) {
             $random_string = randomString();
@@ -19,9 +18,11 @@
             $expire = time() + 3600;
             $cookie_name = "has_login";
             $cookie_value = $random_string;
+
             setcookie($cookie_name, $cookie_value, time() + 86400, "/");
+
             $query = "INSERT INTO token VALUES ($userid, '$random_string', $expire)";
-            $result = mysqli_query($db, $query);
+            queryMysql($query);
 
             header("location: ../browse");
         } else {
