@@ -1,8 +1,7 @@
 <?php 
-    $db = mysqli_connect("localhost", "root", "", "probookdb");
     $queryGetTransaction = "SELECT purchaseid, bookid, bookname, bookimg, jumlah, review, rating, purchaseid, tanggal FROM book NATURAL JOIN purchase WHERE userid=$userid";
     
-    $result = mysqli_query($db, $queryGetTransaction);
+    $result = queryMysql($queryGetTransaction);
     $count = mysqli_num_rows($result);
 
     function PrintDate($date) {

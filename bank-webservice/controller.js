@@ -10,7 +10,7 @@ exports.validate = function(req, res) {
         if(error){
             console.log(error)
         } else{
-            response.ok(!rows[0].result, res)
+            response.ok(rows[0].result, res)
         }
     });
 };

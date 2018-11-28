@@ -9,7 +9,7 @@ var con = mysql.createConnection({
 
 con.connect(function (err){
     if(err) throw err;
-    var query = "CREATE TABLE IF NOT EXISTS account (username VARCHAR(30) PRIMARY KEY, cardnumber VARCHAR(16), balance INT NOT NULL DEFAULT 0)";
+    var query = "CREATE TABLE IF NOT EXISTS account (cardnumber VARCHAR(16) PRIMARY KEY, name VARCHAR(30), balance INT NOT NULL DEFAULT 0)";
     con.query(query, function (err, result) {
         if (err) throw err;
         console.log("Table account created");
