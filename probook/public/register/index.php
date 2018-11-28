@@ -8,8 +8,16 @@
             $result = queryMysql($query);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-            $cookie_value = $row["userid"];
-            setcookie("has_login", $cookie_value, time() + 86400, "/");
+            $random_string = randomString();
+            $userid = $row['userid'];
+            $expire = time() + 3600;
+            $cookie_name = "has_login";
+            $cookie_value = $random_string;
+
+            setcookie($cookie_name, $cookie_value, time() + 86400, "/");
+
+            $query = "INSERT INTO token VALUES ($userid, '$random_string', $expire)";
+            queryMySql($query);
 
             header("location: ../browse");
         } else {
