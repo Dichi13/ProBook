@@ -4,12 +4,14 @@ var response = require('./res');
 var connection = require('./conn');
 
 exports.validate = function(req, res) {
-    var cardnumber = req.params.cardnumber;
-    var query = 'SELECT exists(SELECT cardnumber FROM account WHERE cardnumber = ' + cardnumber + ') as result';
+    var cardnumber = req.params.cardnumber
+    var query = 'SELECT exists(SELECT cardnumber FROM account WHERE cardnumber = ' + cardnumber + ') as result'
     connection.query(query, function (error, rows, fields){
         if(error){
             console.log(error)
-        } else{
+        } else {
+            console.log(cardnumber)
+            console.log(rows)
             response.ok(rows[0].result, res)
         }
     });
