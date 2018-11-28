@@ -7,6 +7,7 @@ var nameDOM = document.getElementById('name-input');
 var truePassDOM = document.getElementById('password-input');
 var addressDOM = document.getElementById('address-input');
 var phoneDOM = document.getElementById('telephone-input');
+var cardDOM = document.getElementById('card-input');
 
 var errorUsername = true;
 var errorEmail = true;
@@ -61,10 +62,26 @@ function checkCard() {
     
     if(cardDOM.value.length != 16) {
         cardNotif.innerHTML = "Please insert a 16 digit card number";
-        errorcard = true;
+        errorCard = true;
     } else {
-        cardNotif.innerHTML = "";
-        errorcard = false;
+        cardNotif.innerHTML = "Validating...";
+        var request = new XMLHttpRequest();
+        request.open('GET', 'http://localhost:3000/validate/' + cardDOM.value, true);
+        request.onload = function () {
+            var data = JSON.parse(this.response);
+            if (request.status == 200 && request.readyState == 4) {
+                if(data.values == 0) {
+                    cardNotif.innerHTML = "Card number is not a valid card";
+                    errorCard = true;
+                } else {
+                    cardNotif.innerHTML = "";
+                    errorCard = false;
+                }
+            } else {
+                console.log('error');
+            }
+        }
+        request.send();
     }
 }
 

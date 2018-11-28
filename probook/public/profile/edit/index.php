@@ -47,25 +47,30 @@
                     </div>
                     <div class="item">
                         <div class="left">Name</div>
-                        <input type="text" name="edit-name" class="edit-form__input" value="<?php echo $nama;?>">
+                        <input type="text" name="edit-name" class="edit-form__input" id="name-input" value="<?php echo $nama;?>">
+                        <div class="form-notif" id="name-notif"></div>
                     </div>
                     <div class="item">
                         <div class="left">Address</div>
-                        <textarea name="edit-address" class="edit-form__address-input" rows="5"><?php echo $alamat;?></textarea>
+                        <textarea name="edit-address" class="edit-form__address-input" rows="5" id="address-input"><?php echo $alamat;?></textarea>
+                        <div class="form-notif" id="address-notif"></div>
                     </div>
                     <div class="item">
                         <div class="left">Phone Number</div>
-                        <input type="text" name="edit-phone" class="edit-form__input" value="<?php echo $phone;?>">
+                        <input type="text" name="edit-phone" class="edit-form__input" id="phone-input" value="<?php echo $phone;?>">
+                        <div class="form-notif" id="phone-notif"></div>
                     </div>
                     <div class="item">
                         <div class="left">Card Number</div>
-                        <input type="text" name="edit-card" class="edit-form__input" value="<?php echo $nomorkartu;?>">
+                        <input type="text" name="edit-card" class="edit-form__input" id="card-input" value="<?php echo $nomorkartu;?>">
+                        <div class="form-notif" id="card-notif"></div>
                     </div>
                     <button class="form__back-button" onclick="window.location='../'; return false;">Back</button>
-                    <input type="submit" value="Save" name="submit" class="form__submit">
+                    <button name="submit" class="form__submit" id="edit-btn">Save</button>
                 </form>
             </section>
         </main>
     </div>
+    <script src="edit.js"></script>
 </body>
 </html>

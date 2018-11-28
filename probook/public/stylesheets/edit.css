@@ -89,3 +89,10 @@ textarea {
 .item {
     margin: 1rem 0rem;
 }
+
+.form-notif {
+    font-size: 1.5rem;
+    color: red;
+    text-align: right;
+    margin-right: 3.5rem;
+}
