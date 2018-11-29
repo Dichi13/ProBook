@@ -9,9 +9,10 @@ public class BooksAPI {
 	private static final String newLine  = System.getProperty("line.separator");
 	private static final String APIkey = "AIzaSyB1VsjBx7OkK5jRdcDr8UXy6lssKRyY4-c";
 	
-	public static JSONObject queryGoogleBooks(String query) {
+	public static JSONObject queryGoogleBooks(String query, String stype) {
 		try {
-			String urlstring = "https://www.googleapis.com/books/v1/volumes?q="+URLEncoder.encode(query, "UTF-8")+"&key="+APIkey; 
+			String urlstring = "https://www.googleapis.com/books/v1/volumes?q="+stype+":"+URLEncoder.encode(query, "UTF-8")+"&key="+APIkey; 
+			
 			URL url = new URL(urlstring);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			
