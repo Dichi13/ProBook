@@ -37,13 +37,15 @@ public class BookServlet extends HttpServlet {
 		respwriter.append("Served at: ").append(request.getContextPath());
 		
 		try {
-			JSONObject volumes = BooksAPI.queryGoogleBooks(query, searchtype);
+			//JSONObject volumes = BooksAPI.queryGoogleBooks(query, searchtype);
 			//respwriter.append(volumes.toString());
-			long resultnum = (long)volumes.get("totalItems"); 
-			if (resultnum > 0) {
-				respwriter.append("<br><br>bangsat<br><br>");
-				respwriter.append(getBook("9781642752021", "isbn"));
-			}
+			
+			respwriter.append(getBook("9781642752021", "isbn"));
+			
+			respwriter.append("<br><br>");
+			respwriter.append(getBook("Comics & Graphic Novels", "subject"));
+			
+			
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -79,6 +81,8 @@ public class BookServlet extends HttpServlet {
 			book.put("isbn", ((JSONObject)((JSONArray)volumeinfo.get("industryIdentifiers")).get(0)).get("identifier"));
 			
 			book.put("author", (volumeinfo.get("authors")));
+
+			book.put("category", (String)((JSONArray)volumeinfo.get("categories")).get(0));
 			
 			book.put("shortDesc", (searchinfo.get("textSnippet")));
 			
@@ -95,7 +99,7 @@ public class BookServlet extends HttpServlet {
 		String isbn = (String)book.get("isbn");
 		
 		String sqlquery = "SELECT price FROM bookprice WHERE book_id='"+isbn+"';";
-		System.out.println(sqlquery);
+		
 		SQLConn conn = new SQLConn();
 		conn.connect();
 		ResultSet rs = conn.query(sqlquery);
@@ -118,7 +122,8 @@ public class BookServlet extends HttpServlet {
 	public String getBook(String query, String accesstype) {
 		try {
 			JSONObject volumes = BooksAPI.queryGoogleBooks(query, accesstype);
-			if ((int)volumes.get("totalItem") > 0) {
+			long resultnum = (long)volumes.get("totalItems");
+			if (resultnum > 0) {
 				JSONArray filtered = filterResult(volumes);
 				for (int i = 0; i < filtered.size(); i++) {
 					addBookPrice((JSONObject)filtered.get(i));
@@ -126,13 +131,14 @@ public class BookServlet extends HttpServlet {
 				return filtered.toJSONString();
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			System.out.println("Getbook error");
+			e.printStackTrace();
 		}
 		return null;
 	}
 	
-	public String getRecommendation(String book_id, String categories) {
-		String sqlquery = "SELECT book_id, sum(total) FROM purchased WHERE category='"+categories
+	public String getRecommendation(String book_id, String category) {
+		String sqlquery = "SELECT book_id, sum(total) FROM purchased WHERE category='"+category
 				+"' AND book_id<>'"+book_id+"' GROUP BY book_id SORT BY sum(total) DESC limit 1;";
 		SQLConn conn = new SQLConn();
 		conn.connect();
@@ -141,7 +147,7 @@ public class BookServlet extends HttpServlet {
 			if (rs.next()) {
 				return getBook(rs.getString(1), "isbn");
 			} else {
-				return getBook(categories, "subject");
+				return getBook(category, "subject");
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
