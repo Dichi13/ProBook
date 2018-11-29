@@ -37,24 +37,40 @@ public class BookServlet extends HttpServlet {
 		
 		try {
 			JSONObject volumes = BooksAPI.queryGoogleBooks(query, searchtype);
-			respwriter.append(volumes.toString());
-			int resultnum = (int)volumes.get("totalItems"); 
+			//respwriter.append(volumes.toString());
+			long resultnum = (long)volumes.get("totalItems"); 
 			if (resultnum > 0) {
 				JSONArray books = (JSONArray)volumes.get("items");
 				JSONArray filtered = new JSONArray();
-				for (int i = 0; i < books.size(); i++)  {
+				
+				for (int i = 0; i < books.size()-1; i++)  {
 					JSONObject book = new JSONObject();
-					book.put("title", ((JSONObject)((JSONObject)books.get(i)).get("volumeInfo")).get("title"));
-					book.put("author", ((JSONObject)((JSONObject)books.get(i)).get("volumeInfo")).get("authors"));
-					book.put("shortDesc", ((JSONObject)((JSONObject)books.get(i)).get("searchInfo")).get("textSnippet"));
-					book.put("longDesc", ((JSONObject)((JSONObject)books.get(i)).get("volumeInfo")).get("description"));
-					book.put("img", ((JSONObject)((JSONObject)((JSONObject)books.get(i)).get("searchInfo")).get("imageLinks")).get("thumbnail"));
+					JSONObject searchinfo = (JSONObject) ((JSONObject)books.get(i)).get("searchInfo");
+					JSONObject volumeinfo = (JSONObject) ((JSONObject)books.get(i)).get("volumeInfo"); 
+					if (searchinfo == null || volumeinfo== null)
+						continue;
+					//respwriter.append(volumeinfo.toString());
+					//respwriter.append(searchinfo.toJSONString());
+					
+					//respwriter.append("1");
+					book.put("title", (volumeinfo.get("title")));
+					//respwriter.append("2");
+					book.put("author", (volumeinfo.get("authors")));
+					//respwriter.append("3");
+					book.put("shortDesc", (searchinfo.get("textSnippet")));
+					//respwriter.append("4");
+					book.put("longDesc", (volumeinfo.get("description")));
+					//respwriter.append("5");
+					book.put("img", ((JSONObject)volumeinfo.get("imageLinks")).get("thumbnail"));
+					//respwriter.append("YeY");
+					respwriter.append("<br><br>"+book.toString());
 					filtered.add(book);
 				}
+				
 			}
 			
 		} catch (Exception e) {
-			message = e.toString();
+			System.out.println(e.toString());
 		}
 		
 	}

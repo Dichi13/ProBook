@@ -11,7 +11,8 @@ public class BooksAPI {
 	
 	public static JSONObject queryGoogleBooks(String query, String stype) {
 		try {
-			String urlstring = "https://www.googleapis.com/books/v1/volumes?q="+stype+":"+URLEncoder.encode(query, "UTF-8")+"&key="+APIkey; 
+			String type = stype == "isbn" ? "isbn" : "intitle";
+			String urlstring = "https://www.googleapis.com/books/v1/volumes?q="+type+":"+URLEncoder.encode(query, "UTF-8")+"&key="+APIkey; 
 			
 			URL url = new URL(urlstring);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
