@@ -41,35 +41,7 @@ public class BookServlet extends HttpServlet {
 			//respwriter.append(volumes.toString());
 			long resultnum = (long)volumes.get("totalItems"); 
 			if (resultnum > 0) {
-				JSONArray books = (JSONArray)volumes.get("items");
-				JSONArray filtered = new JSONArray();
-				
-				for (int i = 0; i < books.size(); i++)  {
-					JSONObject book = new JSONObject();
-					JSONObject searchinfo = (JSONObject) ((JSONObject)books.get(i)).get("searchInfo");
-					JSONObject volumeinfo = (JSONObject) ((JSONObject)books.get(i)).get("volumeInfo"); 
-					if (searchinfo == null || volumeinfo== null)
-						continue;
-					//respwriter.append(volumeinfo.toString());
-					//respwriter.append(searchinfo.toJSONString());
-					
-					//respwriter.append("1");
-					book.put("title", (volumeinfo.get("title")));
-					//respwriter.append("2");
-					book.put("author", (volumeinfo.get("authors")));
-					//respwriter.append("3");
-					book.put("shortDesc", (searchinfo.get("textSnippet")));
-					//respwriter.append("4");
-					book.put("longDesc", (volumeinfo.get("description")));
-					//respwriter.append("5");
-					book.put("img", ((JSONObject)volumeinfo.get("imageLinks")).get("thumbnail"));
-					//respwriter.append("YeY");
-					respwriter.append("<br><br>"+book.toString());
-					filtered.add(book);
-				}
-				
-				ResultSet rs = SQLConn.query("SELECT * FROM bookprice");
-				respwriter.append(rs.toString());
+				respwriter.append(getBook())
 			}
 			
 		} catch (Exception e) {
@@ -86,12 +58,76 @@ public class BookServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	public void getRecommendation() {
+	
+	private JSONArray filterResult(JSONObject result) {
+		JSONArray books = (JSONArray)result.get("items");
+		JSONArray filtered = new JSONArray();
 		
+		for (int i = 0; i < books.size(); i++)  {
+			JSONObject book = new JSONObject();
+			JSONObject searchinfo = (JSONObject) ((JSONObject)books.get(i)).get("searchInfo");
+			JSONObject volumeinfo = (JSONObject) ((JSONObject)books.get(i)).get("volumeInfo"); 
+			if (searchinfo == null || volumeinfo== null)
+				continue;
+			//respwriter.append(volumeinfo.toString());
+			//respwriter.append(searchinfo.toJSONString());
+			
+			book.put("title", (volumeinfo.get("title")));
+			
+			book.put("isbn", ((JSONObject)((JSONArray)volumeinfo.get("industryIdentifiers")).get(0)).get("identifier"));
+			
+			book.put("author", (volumeinfo.get("authors")));
+			
+			book.put("shortDesc", (searchinfo.get("textSnippet")));
+			
+			book.put("longDesc", (volumeinfo.get("description")));
+			
+			book.put("img", ((JSONObject)volumeinfo.get("imageLinks")).get("thumbnail"));
+			
+			filtered.add(book);
+		}
+		return filtered;
 	}
 	
-	public void getBook() {
-		
+	public void addBookPrice(JSONObject book) {
+		String isbn = (String)book.get("identifier");
+		String sqlquery = "SELECT price FROM bookprice WHERE book_id="+isbn;
+		SQLConn conn = new SQLConn();
+		conn.connect();
+		ResultSet rs = conn.query(sqlquery);
+		try {
+			if (rs.next()) {
+				book.put("price", rs.getInt(0));
+			} else {
+				book.put("price", -1);
+			}
+			conn.close();
+		} catch (Exception e){
+			System.out.println("Add price error");
+		}
 	}
-
+	
+	// accesstype isbn, intitle, subject
+	public String getBook(String query, String accesstype) {
+		try {
+			JSONObject volumes = BooksAPI.queryGoogleBooks(query, accesstype);
+			JSONArray filtered = filterResult(volumes);
+			for (int i = 0; i < filtered.size(); i++) {
+				addBookPrice((JSONObject)filtered.get(i));
+			}
+			return filtered.toJSONString();
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			return "";
+		}
+	}
+	
+	public String getRecommendation(String categories) {
+		return null;
+	}
+	
+	public int buyBook(long isbn, int num, long account) {
+		return null;
+	}
+	
 }
