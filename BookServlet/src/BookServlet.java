@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.*;
 import org.json.simple.parser.*;
+import java.sql.*;
 
 /**
  * Servlet implementation class BookServlet
@@ -67,6 +68,8 @@ public class BookServlet extends HttpServlet {
 					filtered.add(book);
 				}
 				
+				ResultSet rs = SQLConn.query("SELECT * FROM bookprice");
+				respwriter.append(rs.toString());
 			}
 			
 		} catch (Exception e) {
