@@ -9,4 +9,7 @@ module.exports = function(app) {
 
     app.route('/validate/:cardnumber')
         .get(route.validate)
+
+    app.route('/transfer')
+    	.post(route.transfer)
 };
