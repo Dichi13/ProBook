@@ -70,22 +70,21 @@
             </div>
         </main>
     </div>
-    <script src="browse.js"></script>
 </body>
 <script>
     var app = angular.module('bookResults', ['angularSoap']);
     app.factory("bookWebService", ['$soap',function($soap){
-        var base_url = "http://localhost:8080/";
+        var base_url = "http://localhost:8080/BookWebservice/bookServlet";
 
         return {
-            GetBook: function(searchquery){
-                return $soap.post(base_url, "GetBook", {searchquery: searchquery});
+            getBook: function(search_query){
+                return $soap.post(base_url, "getBook", {query: search_query, accesstype : "intitle"});
             }
         }
     }])
     app.controller('bookResultsCTRL', function($scope, bookWebService){
         $scope.getResults = function(search_query){
-            bookWebService.GetBook($scope.search_query).then(function(response){
+            bookWebService.getBook($scope.search_query).then(function(response){
                 $scope.response = response;
             });
         }
