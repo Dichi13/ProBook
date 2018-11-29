@@ -2,6 +2,9 @@
 
 <!DOCTYPE html>
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="soapclient.js"></script>
+<script src="angular.soap.js"></script>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,9 +44,50 @@
                         <input type="submit" value="Search" class="search-form__button" id="search-btn">
                     </div>
                 </form>
+                <div class="result-count">
+                    <p>Found <u><strong>Dummy Number</strong></u> result(s)</p>
+                </div>
             </section>
+            <div ng-app="bookResults" ng-controller="bookResultsCTRL">
+                <div class="section-result" ng-repeat="book in response">
+                    <div class="content-section">
+                        <div class="img-div">
+                            <img src="../images/'.$bookimg.'" alt="harry-1">
+                        </div>
+                        <div class="book-content">
+                            <div class="book-heading">
+                                <h3 class="book-title" ng-model="book.name"></h3>
+                                <h4 ng-model="book.author"> - <span id="rate-avg">'.$avg_rating.'</span>/5.0 (<span id="total-vote">'.$vote.'</span> votes)</h4>
+                            </div>
+                            <div class="book-description">
+                                <p ng-model="book.desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form action="../book" class="button-div" method="GET">
+                    <button class="book-detail" name="book-id" value="'.$bookid.'">Detail</button>
+                </form>
+            </div>
         </main>
     </div>
     <script src="browse.js"></script>
 </body>
+<script>
+    var app = angular.module('bookResults', ['angularSoap']);
+    app.factory("bookWebService", ['$soap',function($soap){
+        var base_url = "http://localhost:8080/";
+
+        return {
+            GetBooks: function(searchquery){
+                return $soap.post(base_url, "GetBooks", {<ISI INFO BUKU>});
+            }
+        }
+    }])
+    app.controller('bookResultsCTRL', function($scope, bookWebService){
+        bookWebService.GetBooks($scope.searchquery).then(function(response){
+            $scope.response = response;
+        });
+    });
+</script>
 </html>
