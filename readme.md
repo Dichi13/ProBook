@@ -1,18 +1,59 @@
 # Tugas 2 IF3110 Pengembangan Aplikasi Berbasis Web 
 
-Melakukan *upgrade* Website toko buku online pada Tugas 1 dengan mengaplikasikan **arsitektur web service REST dan SOAP**.
-
-### Tujuan Pembuatan Tugas
-
-Diharapkan dengan tugas ini anda dapat mengerti:
-* Produce dan Consume REST API
-* Produce dan Consume Web Services dengan protokol SOAP
-* Membuat web application yang akan memanggil web service secara REST dan SOAP.
-* Memanfaatkan web service eksternal (API)
 
 ## Anggota Tim
 
-Setiap kelompok beranggotakan **3 orang dari kelas yang sama**. Jika jumlah mahasiswa dalam satu kelas modulo 3 menghasilkan 1, maka hanya 1 kelompok terdiri dari 4 mahasiswa. Jika jumlah mahasiswa modulo 3 menghasilkan 2, maka ada dua kelompok yang beranggotakan 4 orang. Seluruh anggota kelompok **harus berbeda dengan tugas 1**.
+- 13516033 - Abner Adhiwijna
+- 13516063 - Rizky Andyno Ramadhan
+- 13516075 - David Timothy Panjaitan
+
+## Penjelasan
+### Basis Data
+Pada skema basis data di bawah, teks **bercetak tebal** adalah primary key, dan teks *bergaris miring* adalah foreign key.
+
+- Aplikasi Pro-Book
+  - User(**userid**, username, password, nama, email, alamat, phone, nomorkartu, avatar)<br>
+  Tabel ini menyimpan data pengguna.
+  
+  - Purchase(**purchaseid**, *userid*, bookid, review, rating, jumlah, tanggal)<br>
+  Tabel ini menyimpan riwayat pembelian pengguna beserta review dan ratingnya.
+
+  - Token(**userid**, tokenstring, ipaddress, expire)<br>
+  Tabel ini menyimpan access token pengguna
+
+- Webservice Bank
+  - Account(**cardnumber**, name, balance)
+  - Transaction(sender, receiver, amount, date)
+
+- Webservice Buku
+  - Purchased(**purchaseid**, bookid, genre, total)
+
+### Shared Session
+
+Ngga ngerti
+
+### Token
+
+Pembangkitan *token* dilakukan dengan membuat string random  ketika pengguna melakukan login atau registrasi. Token tersebut disimpan di dua tempat, yaitu di basis data Pro-Book dan *cookie* dari *browser* pengguna. Di basis data, tersimpan nomor id pengguna, *string token*, IP address tempat pengguna mengakses aplikasi, dan waktu kedaluwarsa *token*. Pada cookie hanya tersimpan data berupa *string token*.
+
+Cara kerjanya adalah aplikasi akan mengecek kondisi berikut setiap kali pengguna memasuki suatu laman di aplikasi Pro-Book:
+- *Cookie* yang berisi *token* terdapat di browser tempat pengguna mengakses aplikasi
+- *String token* berada di basis data
+- Entri *string token* memiliki waktu yang lebih kecil dari waktu kedaluwarsa *token* dan memiliki IP Address yang sama
+
+Apabila salah satu kondisi di atas tidak terpenuhi, maka pengguna akan diarahkan (*redirect*) ke laman login. Khusus ketika pengguna *logout* atau token sudah kedaluwarsa, maka *cookie* dan entri yang bersangkutan akan dihapus.
+
+### Kelebihan dan Kelemahan
+
+Berikut adalah kelebihan dan kekurangan dari arsitektur yang diterapkan aplikasi ini dibandingkan dengan aplikasi monolitik:
+
+#### Kelebihan
+- Aplikasi menjadi lebih ringkas karena sebagian besar beban ditangani oleh *webservice*.
+- b
+
+#### Kekurangan
+- Aplikasi harus menerapkan protokol yang sesuai dengan protokol dari *webservice* sehingga menambah kompleksitas aplikasi.
+- dd
 
 ## Petunjuk Pengerjaan
 
@@ -136,13 +177,11 @@ Anda tidak dituntut untuk mengerjakan ini. Fokus terlebih dahulu menyelesaikan s
     ![](temp/button_example.png)
 
 ### Pembagian Tugas
-"Gaji buta dilarang dalam tugas ini. Bila tak mengerti, luangkan waktu belajar lebih banyak. Bila belum juga mengerti, belajarlah bersama-sama kelompokmu. Bila Anda sekelompok bingung, bertanyalah (bukan menyontek) ke teman seangkatanmu. Bila seangkatan bingung, bertanyalah pada asisten manapun."
-
-*Harap semua anggota kelompok mengerjakan SOAP dan REST API kedua-duanya*. Tuliskan pembagian tugas seperti berikut ini.
 
 REST :
-1. Validasi nomor kartu : 1351xxxx
-2. ...
+1. Validasi nomor kartu : 13516063
+2. Service Transfer : 13516033
+3. Fetch Data Menggunakan Google Books API : 13516075
 
 SOAP :
 1. Add Produce : 1351xxxx
@@ -150,20 +189,12 @@ SOAP :
 3. ...
 
 Perubahan Web app :
-1. Halaman Search : 
-2. Halaman X :
-3. ...
+1. Penambahan Field Kartu di Login dan Register : 13516033
+2. Implementasi Validasi Kartu : 13516063
+3. Implementasi Access Token Login : 13516063
+4. ...
 
 Bonus :
 1. Pembangkitan token HTOP/TOTP : 
 2. Validasi token : 
 3. ...
-
-## About
-
-Asisten IF3110 2018
-
-Audry | Erick | Holy | Kevin J. | Tasya | Veren | Vincent H.
-
-Dosen : Yudistira Dwi Wardhana | Riza Satria Perdana | Muhammad Zuhri Catur Candra
-
