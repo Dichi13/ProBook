@@ -41,11 +41,13 @@ public class BookServlet extends HttpServlet {
 			//respwriter.append(volumes.toString());
 			long resultnum = (long)volumes.get("totalItems"); 
 			if (resultnum > 0) {
-				respwriter.append(getBook())
+				respwriter.append("<br><br>bangsat<br><br>");
+				respwriter.append(getBook("9781642752021", "isbn"));
 			}
 			
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 		
 	}
@@ -91,19 +93,21 @@ public class BookServlet extends HttpServlet {
 	
 	public void addBookPrice(JSONObject book) {
 		String isbn = (String)book.get("identifier");
-		String sqlquery = "SELECT price FROM bookprice WHERE book_id="+isbn;
+		String sqlquery = "SELECT price FROM bookprice WHERE book_id='"+isbn+"';";
 		SQLConn conn = new SQLConn();
 		conn.connect();
 		ResultSet rs = conn.query(sqlquery);
 		try {
 			if (rs.next()) {
-				book.put("price", rs.getInt(0));
+				book.put("price", rs.getInt(1));
 			} else {
 				book.put("price", -1);
 			}
 			conn.close();
 		} catch (Exception e){
 			System.out.println("Add price error");
+			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
 	
@@ -127,7 +131,7 @@ public class BookServlet extends HttpServlet {
 	}
 	
 	public int buyBook(long isbn, int num, long account) {
-		return null;
+		return -1;
 	}
 	
 }

@@ -39,9 +39,10 @@ public class SQLConn {
 	public ResultSet query(String sqlquery) {
 		try {
 		    stmt = conn.createStatement();
-		    
+		    //sqlquery = "SELECT * FROM bookprice;"
 		    rs = stmt.executeQuery(sqlquery);
-		    System.out.println(rs.getInt(0));
+		    
+		    //System.out.println(rs.getInt(1));
 	    //STEP 6: Clean-up environment
 		    return rs;
 	   }catch(SQLException se){
@@ -50,7 +51,7 @@ public class SQLConn {
 	   }catch(Exception e){
 	      //Handle errors for Class.forName
 	      e.printStackTrace();
-	   }finally{
+	   }/*finally{
 	      //finally block used to close resources
 	      try{
 	         if(stmt!=null)
@@ -63,7 +64,7 @@ public class SQLConn {
 	      }catch(SQLException se){
 	         se.printStackTrace();
 	      }//end finally try
-	   }//end try
+	   }//end try*/
 	   return null;
 	}
 }
