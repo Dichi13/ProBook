@@ -21,4 +21,4 @@ function searchCheck(){
         searchBtn.disabled = false;
         searchBtn.style.backgroundColor = '#00ACF0';
     }
-}
+}z
