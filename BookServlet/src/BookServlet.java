@@ -105,11 +105,12 @@ public class BookServlet extends HttpServlet {
 			} else {
 				book.put("price", -1);
 			}
-			conn.close();
 		} catch (Exception e){
 			System.out.println("Add price error");
 			System.out.println(e.toString());
 			e.printStackTrace();
+		} finally {
+			conn.close();
 		}
 	}
 	
@@ -117,18 +118,37 @@ public class BookServlet extends HttpServlet {
 	public String getBook(String query, String accesstype) {
 		try {
 			JSONObject volumes = BooksAPI.queryGoogleBooks(query, accesstype);
-			JSONArray filtered = filterResult(volumes);
-			for (int i = 0; i < filtered.size(); i++) {
-				addBookPrice((JSONObject)filtered.get(i));
+			if ((int)volumes.get("totalItem") > 0) {
+				JSONArray filtered = filterResult(volumes);
+				for (int i = 0; i < filtered.size(); i++) {
+					addBookPrice((JSONObject)filtered.get(i));
+				}
+				return filtered.toJSONString();
 			}
-			return filtered.toJSONString();
 		} catch (Exception e) {
 			System.out.println(e.toString());
-			return "";
 		}
+		return null;
 	}
 	
-	public String getRecommendation(String categories) {
+	public String getRecommendation(String book_id, String categories) {
+		String sqlquery = "SELECT book_id, sum(total) FROM purchased WHERE category='"+categories
+				+"' AND book_id<>'"+book_id+"' GROUP BY book_id SORT BY sum(total) DESC limit 1;";
+		SQLConn conn = new SQLConn();
+		conn.connect();
+		try {
+			ResultSet rs = conn.query(sqlquery);
+			if (rs.next()) {
+				return getBook(rs.getString(1), "isbn");
+			} else {
+				return getBook(categories, "subject");
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
 		return null;
 	}
 	
