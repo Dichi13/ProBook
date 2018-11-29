@@ -44,7 +44,7 @@ public class BookServlet extends HttpServlet {
 				JSONArray books = (JSONArray)volumes.get("items");
 				JSONArray filtered = new JSONArray();
 				
-				for (int i = 0; i < books.size()-1; i++)  {
+				for (int i = 0; i < books.size(); i++)  {
 					JSONObject book = new JSONObject();
 					JSONObject searchinfo = (JSONObject) ((JSONObject)books.get(i)).get("searchInfo");
 					JSONObject volumeinfo = (JSONObject) ((JSONObject)books.get(i)).get("volumeInfo"); 
@@ -84,6 +84,14 @@ public class BookServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	public void getRecommendation() {
+		
+	}
+	
+	public void getBook() {
+		
 	}
 
 }

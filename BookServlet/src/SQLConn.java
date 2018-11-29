@@ -39,10 +39,7 @@ public class SQLConn {
 	      System.out.println(rs.toString());
 	    //STEP 6: Clean-up environment
 	      stmt.close();
-	      System.out.println(rs.toString());
 	      conn.close();
-	      System.out.println(rs.toString());
-	      System.out.println(rs.toString());
 	      return rs;
 	   }catch(SQLException se){
 	      //Handle errors for JDBC
