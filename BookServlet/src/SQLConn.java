@@ -41,7 +41,6 @@ public class SQLConn {
 		    stmt = conn.createStatement();
 		    //sqlquery = "SELECT * FROM bookprice;"
 		    rs = stmt.executeQuery(sqlquery);
-		    
 		    //System.out.println(rs.getInt(1));
 	    //STEP 6: Clean-up environment
 		    return rs;

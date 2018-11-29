@@ -92,8 +92,10 @@ public class BookServlet extends HttpServlet {
 	}
 	
 	public void addBookPrice(JSONObject book) {
-		String isbn = (String)book.get("identifier");
+		String isbn = (String)book.get("isbn");
+		
 		String sqlquery = "SELECT price FROM bookprice WHERE book_id='"+isbn+"';";
+		System.out.println(sqlquery);
 		SQLConn conn = new SQLConn();
 		conn.connect();
 		ResultSet rs = conn.query(sqlquery);
