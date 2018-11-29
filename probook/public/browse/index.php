@@ -84,8 +84,8 @@
         }
     }])
     app.controller('bookResultsCTRL', function($scope, bookWebService){
-        $scope.getResults = function(searchquery){
-            bookWebService.GetBook($scope.searchquery).then(function(response){
+        $scope.getResults = function(search_query){
+            bookWebService.GetBook($scope.search_query).then(function(response){
                 $scope.response = response;
             });
         }
