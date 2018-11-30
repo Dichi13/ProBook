@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="soapclient.js"></script>
-<script src="angular.soap.js"></script>
+<script src="../../app/soapclient.js"></script>
+<script src="../../app/angular.soap.js"></script>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,7 +39,7 @@
             <div ng-app="bookResults" ng-controller="bookResultsCTRL">
                 <section class="section-search">
                     <h2 class="heading-secondary">Search Book</h2>
-                    <form action="../searchresult" class="search-form" method="GET" name="search-form">
+                    <form class="search-form" method="GET" name="search-form">
                         <input type="text" name="search-book" class="search-form__text-input" id="search-input" placeholder="Input search terms..." ng-model="search_query" ng-change="getResults($event.target.value)">
                         <div id="search-notif"></div>
                     </form>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <form action="../book" class="button-div" method="GET">
-                        <button class="book-detail" name="book-id" value="'.$bookid.'">Detail</button>
+                        <button class="book-detail" name="book-id" value="{{book.isbn}}">Detail</button>
                     </form>
                 </div>
             </div>

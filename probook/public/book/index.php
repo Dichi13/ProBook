@@ -1,8 +1,10 @@
 <?php include("../../app/fetch.php"); ?>
-<?php include("../../app/bookdetail.php"); ?>
 
 <!DOCTYPE html>
 <html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="../../app/soapclient.js"></script>
+<script src="../../app/angular.soap.js"></script>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,22 +36,24 @@
             </nav>
         </header>
         <main>
-            <section class="section-book-details">
-            <div class="right">
-                    <div class="img-thumbnail">
-                        <img src="<?php echo "../images/$bookimg"?>">
+            <div ng-app="bookDetails" ng-controller="bookDetailsCTRL">
+                <section class="section-book-details">
+                <div class="right">
+                        <div class="img-thumbnail">
+                            <img src="{{book.img}}">
+                        </div>
+                        <div class="rating">
+                            <!-- <?php include("../../app/ratingstar.php"); ?> -->
+                            <p>RATING / 5.0</p>
+                        </div>
                     </div>
-                    <div class="rating">
-                        <?php include("../../app/ratingstar.php"); ?>
-                        <p><?php echo $avg_rating?> / 5.0</p>
+                    <div class="left">
+                        <h2 class="heading-secondary">{{book.title}}</h2>
+                        <h3 ng-repeat="authr in author">{{author}}</h3>
+                        <p>{{book.longDesc}}</p>
                     </div>
-                </div>
-                <div class="left">
-                    <h2 class="heading-secondary"><?php echo $bookname ?></h2>
-                    <h3><?php echo $author ?></h3>
-                    <p><?php echo $deskripsi ?></p>
-                </div>
-            </section>
+                </section>
+            </div>
             <section class="section-order">
                 <h3 class="heading-tertiary">Order</h3>
                 <form id="form-input">
@@ -87,4 +91,25 @@
     </div>
     <script src="detail.js"></script>
 </body>
+<script>
+    var app = angular.module('bookDetails', ['angularSoap']);
+    app.factory("bookWebService", ['$soap',function($soap){
+        var base_url = "http://localhost:8080/BookWebservice/bookServlet";
+
+        return {
+            getBook: function(search_query){
+                return $soap.post(base_url, "getBook", {query: search_query, accesstype : "isbn"});
+            }
+        }
+    }])
+    app.controller('bookDetailsCTRL', function($scope, bookWebService){
+        $scope.getDetails = function(search_query){
+            bookWebService.getBook(search_query).then(function(response){
+                temp = JSON.parse(response);
+                $scope.book = temp[0];
+            });
+        }
+        $scope.getDetails(<?php echo (string)$_GET['book-id']; ?>);
+    });
+</script>
 </html>
