@@ -110,7 +110,48 @@ public class BookWS implements CoreFunction {
 	}
 	
 	@WebMethod
-	public int buyBook(long isbn, int num, long account) {
+	public int buyBook(String book_id, int num, long account) {
+		// calculate price amount
+		long amount = num;
+		SQLConn conn = new SQLConn();
+		conn.connect();
+		String sqlquery = "SELECT price FROM bookprice WHERE book_id='"+ book_id +"'";
+		try {
+			ResultSet rs = conn.query(sqlquery);
+			if (rs.next()) {
+				amount *= rs.getLong(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			conn.close();
+		}
+		// request transfer to bankws
+		Boolean transfered = BankAPI.requestTransfer(account, amount);
+		
+		//if success, create and insert purchased row to db
+		if (transfered) {
+			try {
+				conn.connect();
+				String book = getBook(book_id, "isbn");
+				JSONParser parser = new JSONParser();
+				String category = (String)((JSONObject)parser.parse(book)).get("category");
+				sqlquery = "INSERT INTO purchased (book_id, category, total) "
+						 + "VALUES ('"+book_id+"','"+category+"', "+num+")";
+				conn.query(sqlquery);
+				sqlquery = "SELECT LAST_INSERT_ID() as id_transaksi";
+				ResultSet rs = conn.query(sqlquery);
+				rs.next();
+				int purchase_id = rs.getInt(1);
+			// return purchase_id
+				return purchase_id;
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				conn.close();
+			}
+		}
+		//transaction failed
 		return -1;
 	}
 }

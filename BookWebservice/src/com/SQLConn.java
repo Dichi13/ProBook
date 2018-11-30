@@ -39,7 +39,7 @@ public class SQLConn {
 	
 	public ResultSet query(String sqlquery) {
 		try {
-		    stmt = conn.createStatement();
+			stmt = conn.createStatement();
 		    //sqlquery = "SELECT * FROM bookprice;"
 		    rs = stmt.executeQuery(sqlquery);
 		    //System.out.println(rs.getInt(1));
