@@ -27,8 +27,13 @@ public class BookWS implements CoreFunction {
 			
 			book.put("title", (volumeinfo.get("title")));
 			
-			book.put("isbn", ((JSONObject)((JSONArray)volumeinfo.get("industryIdentifiers")).get(0)).get("identifier"));
-			
+			JSONArray isbn = (JSONArray)volumeinfo.get("industryIdentifiers");
+			if (isbn!=null) {
+				book.put("isbn", ((JSONObject)(isbn).get(0)).get("identifier"));
+			} else {
+				continue;
+			}
+				
 			book.put("author", (volumeinfo.get("authors")));
 			
 			JSONArray categ = (JSONArray)volumeinfo.get("categories");

@@ -1,8 +1,8 @@
 <?php 
-    if (isset($_GET['bookid'])) {
+    if (isset($_GET['book-id'])) {
         $db = mysqli_connect("localhost", "root", "", "probookdb");
-        $bookid = $_GET['bookid'];
-        $querySearch = "SELECT count(*) AS votes FROM purchase WHERE bookid = '$bookid'";
+        $bookid = $_GET['book-id'];
+        $querySearch = "SELECT count(*) AS votes FROM purchase WHERE bookid = '$bookid' AND rating IS NOT NULL";
         $result = mysqli_query($db, $querySearch);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 

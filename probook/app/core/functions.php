@@ -75,4 +75,12 @@ function getUserIdFromToken($token) {
     }
 }
 
+function getCardNumFromUserId($userid) {
+    $query = "SELECT nomorkartu FROM user WHERE userid = '$userid'";
+    $result = queryMysql($query);
+    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    $cardnum = $row['nomorkartu'];
+    return $cardnum;
+}
 ?>

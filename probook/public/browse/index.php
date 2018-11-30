@@ -56,7 +56,9 @@
                         <div class="book-content">
                             <div class="book-heading">
                                 <h3 class="book-title">{{book.title}}</h3>
-                                <h4 >{{book.author[0]}} - <span id="rate-avg" onload="loadRating(book.isbn, function(nilairating){ this.innerHTML = nilairating;})"></span>/5.0 (<span id="total-vote" onload="this.innerHTML=loadVotes(book.id)"></span> votes)</h4>
+                                <h4 >{{book.author[0]}} - 
+                                    <span id="rate-avg-{{book.isbn}}"></span> / 5.0 (
+                                        <span id="vote-{{book.isbn}}"></span> votes )</h4>
                             </div>
                             <div class="book-description">
                                 <p>{{book.shortDesc}}</p>
@@ -90,32 +92,38 @@
                 $scope.books = temp;
                 var ratings = [];
                 temp.forEach(function(book, i){
-                    ratings[i] = loadRating(book.isbn);
+                    ratings[i] = loadRating(book.isbn); 
+                    loadVotes(book.isbn);
                 })
                 $scope.rating = ratings;
             });
         }
     });
 
-    function loadRating(bookid, cb){
+    function loadRating(bookid){
         var xhr =  new XMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                if( typeof cb === 'function' ){
-                    cb(this.responseText);
-                }
+                
+                document.getElementById("rate-avg-"+bookid).innerHTML = this.responseText;
             }
         }
 
-        xhr.open("GET", "getrating.php?bookid="+bookid, true);     
+        xhr.open("GET", "getrating.php?book-id="+bookid+"&getby=js", true);     
         xhr.send();
         return xhr.onreadystatechange();
     }
 
     function loadVotes(bookid){
         var xhr =  new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("LOADED from php"+this.responseText);
+                document.getElementById("vote-"+bookid).innerHTML = this.responseText;
+            }
+        }
 
-        xhr.open("GET", "getvotes.php?bookid="+bookid, true);
+        xhr.open("GET", "getvotes.php?book-id="+bookid, true);
         xhr.send();
         return this.responseText;
     }
