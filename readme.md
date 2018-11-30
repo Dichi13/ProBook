@@ -19,14 +19,19 @@ Pada skema basis data di bawah, teks **bercetak tebal** adalah primary key, dan 
   Tabel ini menyimpan riwayat pembelian pengguna beserta review dan ratingnya.
 
   - Token(**userid**, tokenstring, ipaddress, expire)<br>
-  Tabel ini menyimpan access token pengguna
+  Tabel ini menyimpan access token pengguna.
 
 - Webservice Bank
   - Account(**cardnumber**, name, balance)
+  Tabel ini menyimpan daftar akun yang ada di webservice bank.
+
   - Transaction(sender, receiver, amount, date)
+  Tabel ini menyimpan hasil transaksi antar dua pengguna akun yang melakukan transfer
 
 - Webservice Buku
-  - Purchased(**purchaseid**, bookid, genre, total)
+  - Purchased(**purchaseid**, bookid, category, total)
+  - BookPrice(**bookid**, price)
+
 
 ### Shared Session
 

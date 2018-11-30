@@ -66,8 +66,9 @@ function getUserIdFromToken($token) {
 
     $expire = $row['expire'];
     $userid = $row['userid'];
+    $ipaddress = $row['ipaddress'];
 
-    if ($expire > time()) {
+    if ($expire > time() && $ipaddress == $_SERVER['REMOTE_ADDR']) {
         return $userid;
     } else {
         return 0;

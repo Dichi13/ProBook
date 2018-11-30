@@ -13,10 +13,11 @@
             $expire = time() + 3600;
             $cookie_name = "has_login";
             $cookie_value = $random_string;
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
 
             setcookie($cookie_name, $cookie_value, time() + 86400, "/");
 
-            $query = "INSERT INTO token VALUES ($userid, '$random_string', $expire)";
+            $query = "INSERT INTO token VALUES ($userid, '$random_string', '$ipaddress', $expire)";
             queryMySql($query);
 
             header("location: ../browse");

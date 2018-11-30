@@ -26,7 +26,7 @@
         $sqlCreatePurchase = "CREATE TABLE IF NOT EXISTS purchase (
                             purchaseid INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                             userid INT(6) UNSIGNED,
-                            bookid INT(6) UNSIGNED,
+                            bookid VARCHAR(13),
                             review VARCHAR(200),
                             rating INT(6) UNSIGNED,
                             jumlah INT(100) UNSIGNED,
@@ -37,6 +37,7 @@
         $sqlCreateToken = "CREATE TABLE IF NOT EXISTS token (
                             userid INT(6) UNSIGNED PRIMARY KEY,
                             tokenstring VARCHAR(15),
+                            ipaddress VARCHAR(45),
                             expire INT UNSIGNED,
                             FOREIGN KEY (userid) REFERENCES user(userid)
                         )";
