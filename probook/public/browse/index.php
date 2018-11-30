@@ -41,12 +41,11 @@
                     <h2 class="heading-secondary">Search Book</h2>
                     <form class="search-form" method="GET" name="search-form">
                         <input type="text" name="search-book" class="search-form__text-input" id="search-input" placeholder="Input search terms..." ng-model="search_query" ng-change="getResults($event.target.value)">
-                        <div id="search-notif"></div>
                     </form>
                     <div class="result-count">
                         <p></p>
                         <p>Showing results for <u><strong>{{search_query}}</strong></u></p>
-                        <p>Found <u><strong>Dummy Number</strong></u> result(s)</p>
+                        <p>Found <u><strong>{{books.length}}</strong></u> result(s)</p>
                     </div>
                 </section>
                 <div class="section-result" ng-repeat="book in books">
@@ -72,6 +71,7 @@
         </main>
     </div>
 </body>
+<script src="browse.js"></script>
 <script>
     var app = angular.module('bookResults', ['angularSoap']);
     app.factory("bookWebService", ['$soap',function($soap){
