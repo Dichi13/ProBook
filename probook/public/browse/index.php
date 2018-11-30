@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/search-result.css" />
     <!-- <script src="main.js"></script> -->
 </head>
 <body>
@@ -48,18 +49,18 @@
                         <p>Found <u><strong>Dummy Number</strong></u> result(s)</p>
                     </div>
                 </section>
-                <div class="section-result" ng-repeat="book in response">
+                <div class="section-result" ng-repeat="book in books">
                     <div class="content-section">
                         <div class="img-div">
-                            <img src="BELUM" alt="harry-1">
+                            <img src={{book.img}} alt="harry-1">
                         </div>
                         <div class="book-content">
                             <div class="book-heading">
-                                <h3 class="book-title">{{book.name}}</h3>
-                                <h4 >{{book.author}} - <span id="rate-avg" onload="this.innerHTML=loadRating(book.id)"></span>/5.0 (<span id="total-vote" onload="this.innerHTML=loadVotes(book.id)"></span> votes)</h4>
+                                <h3 class="book-title">{{book.title}}</h3>
+                                <h4 >{{book.author[0]}} - <span id="rate-avg" onload="loadRating(book.isbn, function(nilairating){ this.innerHTML = nilairating;})"></span>/5.0 (<span id="total-vote" onload="this.innerHTML=loadVotes(book.id)"></span> votes)</h4>
                             </div>
                             <div class="book-description">
-                                <p>{{book.desc}}</p>
+                                <p>{{book.shortDesc}}</p>
                             </div>
                         </div>
                     </div>
@@ -85,23 +86,36 @@
     app.controller('bookResultsCTRL', function($scope, bookWebService){
         $scope.getResults = function(search_query){
             bookWebService.getBook($scope.search_query).then(function(response){
-                $scope.response = response;
+                temp = JSON.parse(response);
+                $scope.books = temp;
+                var ratings = [];
+                temp.forEach(function(book, i){
+                    ratings[i] = loadRating(book.isbn);
+                })
+                $scope.rating = ratings;
             });
         }
     });
 
-    function loadRating(bookid){
+    function loadRating(bookid, cb){
         var xhr =  new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if( typeof cb === 'function' ){
+                    cb(this.responseText);
+                }
+            }
+        }
 
-        xhr.open('GET', 'getrating.php?bookid='+bookid, true);
+        xhr.open("GET", "getrating.php?bookid="+bookid, true);     
         xhr.send();
-        return this.responseText;
+        return xhr.onreadystatechange();
     }
 
     function loadVotes(bookid){
         var xhr =  new XMLHttpRequest();
 
-        xhr.open('GET', 'getvotes.php?bookid='+bookid, true);
+        xhr.open("GET", "getvotes.php?bookid="+bookid, true);
         xhr.send();
         return this.responseText;
     }
