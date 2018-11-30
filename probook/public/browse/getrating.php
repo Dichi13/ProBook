@@ -1,15 +1,16 @@
 <?php 
-    if (isset($_GET['bookid'])) {
+    $avg_rating = -1;
+    if (isset($_GET['book-id'])) {
         $db = mysqli_connect("localhost", "root", "", "probookdb");
-        $bookid = $_GET['bookid'];
-        $querySearch = "SELECT AVG(rating) AS avg_rating FROM purchase WHERE bookid = '$bookid'";
+        $bookid = $_GET['book-id'];
+        $querySearch = "SELECT AVG(rating) AS avg_rating FROM purchase GROUP BY bookid HAVING bookid = '$bookid'";
         $result = mysqli_query($db, $querySearch);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
         if($row['avg_rating'] != NULL){
-            echo $row['avg_rating'];
+            $avg_rating = $row['avg_rating'];
         }else{
-            echo "0";
+            $avg_rating = "0";
         }
     }
 ?>
