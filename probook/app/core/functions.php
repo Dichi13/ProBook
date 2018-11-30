@@ -42,7 +42,7 @@ function NewUser($post) {
     queryMysql($query);
 }
 
-function NewPurchase($userid, $bookid, $jumlah, $date){
+function NewPurchase($purchaseid, $userid, $bookid, $jumlah, $date){
     $query = "INSERT INTO purchase (userid,bookid,jumlah,tanggal) 
     VALUES ('$userid','$bookid', '$jumlah', '$date')"; 
     queryMysql($query);

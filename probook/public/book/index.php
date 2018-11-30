@@ -79,8 +79,8 @@
                     <div class="modal-content">
                         <span id="close">&times;</span>
                             <img src="../images/checked.png" alt="checked" class="img-checked">
-                            <h3><strong>Pemesanan Berhasil!</strong></h3>
-                            <p>Nomor Transaksi: <?php echo $transactionID; ?></p>
+                            <h3><strong id="success-message"></strong></h3>
+                            <p><span id="message-code"></span></p>
                     </div>
                 </div>
                 <!-- End Of Modal -->
