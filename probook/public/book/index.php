@@ -51,7 +51,7 @@
                     </div>
                     <div class="left">
                         <h2 class="heading-secondary">{{book.title}}</h2>
-                        <h3 ng-repeat="authr in author">{{author}}</h3>
+                        <h3 ng-repeat="authr in book.author">{{authr}}</h3>
                         <p>{{book.longDesc}}</p>
                     </div>
                 </section>
