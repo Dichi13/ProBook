@@ -14,7 +14,7 @@
     <script src="main.js"></script>
 </head>
 <body>
-<div class="container">   
+    <div class="container">   
         <header>
             <div class="header-primary clear-fix">
                 <div class="header-primary__brand">
@@ -41,7 +41,7 @@
                         <h4 class="heading-quartiary"><?php echo $author?></h4>
                     </div>
                     <div class="review-primary__image-container">
-                        <img src="../images/<?php echo $bookimg ?>" alt="book images" class="review-primary__image">
+                        <img src="<?php echo $bookimg ?>" alt="book images" class="review-primary__image">
                     </div>
                 </div>
                 <div class="content">
@@ -49,24 +49,24 @@
                         <h3 class="heading-tertiary">Add Rating</h3>
                         <div class="align-center-text">
                             <span class="rating-form__rating clear-fix">
-                                <input id="rating-5" type="radio" name="rating" value="5">
+                                <input id="rating-5" type="radio" name="rating" value="5" id="radio5">
                                 <label for="rating-5">5</label>
-                                <input id="rating-4" type="radio" name="rating" value="4">
+                                <input id="rating-4" type="radio" name="rating" value="4" id="radio4">
                                 <label for="rating-4">4</label>
-                                <input id="rating-3" type="radio" name="rating" value="3">
+                                <input id="rating-3" type="radio" name="rating" value="3" id="radio3">
                                 <label for="rating-3">3</label>
-                                <input id="rating-2" type="radio" name="rating" value="2">
+                                <input id="rating-2" type="radio" name="rating" value="2" id="radio2">
                                 <label for="rating-2">2</label>
-                                <input id="rating-1" type="radio" name="rating" value="1">
+                                <input id="rating-1" type="radio" name="rating" value="1" id="radio1">
                                 <label for="rating-1">1</label>
                             </span>
                         </div>
                         <h3 class="heading-tertiary">Add Comment</h3>
-                        <textarea name="comment" cols="30" rows="10" class="rating-form__comment"></textarea>
+                        <textarea name="comment" cols="30" rows="10" class="rating-form__comment" id="comment-input"></textarea>
                         <input type="hidden" name="purchase-id" value="<?php echo $_GET['purchase-id']?>">
                         <input type="hidden" name="user-id" value="<?php echo $userid?>">
                         <div class="review-form__button-container clear-fix">
-                            <input type="submit" class="review-form__button--submit">
+                            <input type="submit" class="review-form__button--submit" id="submit-btn">
                             <div class="review-form__button--back">
                                 <a class="review-form__link" href="../history">Back</a>
                             </div>
@@ -76,5 +76,6 @@
             </section>
         </main>
     </div>
+    <script src="review.js"></script>
 </body>
 </html>
