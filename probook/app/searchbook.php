@@ -1,4 +1,5 @@
 <?php 
+    require_once("../../public/browse/getrating.php");
     if (isset($_GET['search-book'])) {
         $db = mysqli_connect("localhost", "root", "", "probookdb");
         $keyword = $_GET['search-book'];
@@ -12,7 +13,6 @@
             $author = $row['author'];
             $deskripsi = $row['deskripsi'];
             $bookimg = $row['bookimg'];
-            $avg_rating = $row['avg_rating'];
             $vote = $row['vote'];
             echo '<div class="section-result">
                     <div class="content-section">

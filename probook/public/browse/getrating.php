@@ -9,8 +9,11 @@
 
         if($row['avg_rating'] != NULL){
             $avg_rating = $row['avg_rating'];
-        }else{
+        } else {
             $avg_rating = "0";
         }
+    }
+    if (isset($_GET['getby'])) {
+        echo number_format($avg_rating, 1);
     }
 ?>
