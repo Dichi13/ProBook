@@ -6,7 +6,7 @@
     $bookWS = new SoapClient("http://localhost:8080/BookWebservice/bookServlet?wsdl"); 
     
     $token = $_COOKIE['has_login'];
-    $userid  = getgetUserIdFromToken($token);
+    $userid  = getUserIdFromToken($token);
     $cardnumber =  getCardNumFromUserId($userid);
     $jumlah = $_REQUEST['amount'];
     $bookid = $_REQUEST['book-id'];
@@ -19,11 +19,11 @@
         "arg2" => $cardnumber,
     );
     
-    $response = $bookWS->buyBook($params);
+    $response = $bookWS->__soapCall("buyBook", array($params));
     
-    echo $response;
+    echo $response->return;
 
-    if ($response > 0) {
+    if ($response->return > 0) {
         NewPurchase($response, $userid, $bookid, $jumlah, $date);
     }
 ?>

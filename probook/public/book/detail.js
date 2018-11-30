@@ -35,7 +35,6 @@ function submitForm() {
                 document.getElementById("message-code").innerHTML = "Kode Galat: "+this.responseText;
             }
             modalOrder.classList.add('show-modal');
-            modalOrder.getElementById()
         }
     }
     xhr.send(null);
