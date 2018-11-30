@@ -105,7 +105,7 @@ public class BookWS implements CoreFunction {
 	@WebMethod
 	public String getRecommendation(String book_id, String category) {
 		String sqlquery = "SELECT book_id, sum(total) FROM purchased WHERE category='"+category
-				+"' AND book_id<>'"+book_id+"' GROUP BY book_id SORT BY sum(total) DESC limit 1;";
+				+"' AND book_id<>'"+book_id+"' GROUP BY book_id ORDER BY sum(total) DESC limit 1;";
 		SQLConn conn = new SQLConn();
 		conn.connect();
 		try {
@@ -125,7 +125,7 @@ public class BookWS implements CoreFunction {
 	}
 	
 	@WebMethod
-	public int buyBook(String book_id, int num, long account) {
+	public int buyBook(String book_id, int num, String account) {
 		// calculate price amount
 		long amount = num;
 		SQLConn conn = new SQLConn();
@@ -143,7 +143,7 @@ public class BookWS implements CoreFunction {
 		}
 		// request transfer to bankws
 		Boolean transfered = BankAPI.requestTransfer(account, amount);
-		
+		System.out.println("Transfer is complete = "+transfered);
 		//if success, create and insert purchased row to db
 		if (transfered) {
 			try {

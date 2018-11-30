@@ -45,6 +45,12 @@ exports.transfer = function(req, res) {
                         console.log(error)
                     }
                 })
+                query = 'INSERT INTO transaction (sender, receiver, amount, t_date) VALUES (' + sender + ', ' + receiver + ', ' + amount + ', NOW())'
+                connection.query(query, function (error, rows, fields){
+                    if(error){
+                        console.log(error)
+                    }
+                })
                 response.ok("Transaction Success", res)
             }
         }

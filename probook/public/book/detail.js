@@ -27,6 +27,13 @@ function submitForm() {
     xhr.open('GET', url, false);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
+            if (this.responseText > 0) {
+                document.getElementById("success-message").innerHTML = "Pemesanan Berhasil!";
+                document.getElementById("message-code").innerHTML = "Nomor Transaksi: "+this.responseText;
+            } else {
+                document.getElementById("success-message").innerHTML = "Pemesanan Gagal";
+                document.getElementById("message-code").innerHTML = "Kode Galat: "+this.responseText;
+            }
             modalOrder.classList.add('show-modal');
         }
     }

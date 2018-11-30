@@ -75,20 +75,23 @@
                            <button class="btn-order" id="btn-order">Order</button> 
                         </div>
                     </form>
-                    <h3 class="heading-tertiary">Rekomendasi</h3>
-                    <div class="img-div">
-                        <img src={{rec.img}} alt="harry-1">
-                    </div>
-                    <div class="book-content">
-                        <div class="book-heading">
-                            <h3 class="book-title">{{rec.title}}</h3>
-                            <h4 >{{rec.author[0]}} - 
-                                <span id="rate-avg-{{rec.isbn}}"></span> / 5.0 (
-                                    <span id="vote-{{rec.isbn}}"></span> votes )</h4>
+                    <div id="bagian-rekomendasi">
+                        <h3 class="heading-tertiary">Rekomendasi</h3>
+                        <div class="img-div">
+                            <img src={{rec.img}} alt="harry-1">
                         </div>
-                        <div class="book-description">
-                            <p>{{rec.shortDesc}}</p>
+                        <div class="book-content">
+                            <div class="book-heading">
+                                <h3 class="book-title">{{rec.title}}</h3>
+                                <h4 >{{rec.author[0]}}</h4>
+                            </div>
+                            <div class="book-description">
+                                <p>{{rec.shortDesc}}</p>
+                            </div>
                         </div>
+                        <form action="../book" class="button-div" method="GET">
+                            <button class="book-detail" name="book-id" value="{{rec.isbn}}">Detail</button>
+                        </form>
                     </div>
                     <!-- modal -->
                     <div class="modal" id="modal-order">
@@ -120,23 +123,28 @@
                 return $soap.post(base_url, "getBook", {query: search_query, accesstype : "isbn"});
             },
 
-            getRecommendation: function(cat){
-                return $soap.post(base_url, "getRecommendation", {category : cat});
+            getRecommendation: function(id, cat){
+                return $soap.post(base_url, "getRecommendation", {book_id : id, category : cat});
             }
         }
     }])
     app.controller('bookDetailsCTRL', function($scope, bookWebService){
-        $scope.getRecommendation = function(category){
-        bookWebService.getRecommendation(category).then(function(response){
+        $scope.getRecommendation = function(id, cat){
+        bookWebService.getRecommendation(id, cat).then(function(response){
                 temp = JSON.parse(response);
-                $scope.rec = temp[0];
+                if(temp[0] != null){
+                    $scope.rec = temp[0];
+                    console.log(temp[0]);
+                }else{
+                    document.getElementById("bagian-rekomendasi").innerHTML="";
+                }
             });
         }
         $scope.getDetails = function(search_query){
             bookWebService.getBook(search_query).then(function(response){
                 temp = JSON.parse(response);
                 $scope.book = temp[0];
-                $scope.getRecommendation($scope.book.category);
+                $scope.getRecommendation($scope.book.isbn, $scope.book.category);
                 console.log(temp[0]);
             });
         }
