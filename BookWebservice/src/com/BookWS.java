@@ -84,7 +84,7 @@ public class BookWS implements CoreFunction {
 			System.out.println("Getbook error");
 			e.printStackTrace();
 		}
-		return null;
+		return "[]";
 	}
 	
 	@WebMethod
