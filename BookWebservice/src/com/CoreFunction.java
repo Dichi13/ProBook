@@ -12,7 +12,7 @@ public interface CoreFunction {
 	String getRecommendation(String book_id, String categories);
 	
 	@WebMethod
-	int buyBook(String book_id, int num, long account);	
+	int buyBook(String book_id, int num, String account);	
 }
 
 

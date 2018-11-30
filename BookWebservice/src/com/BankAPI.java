@@ -5,11 +5,11 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 
 public class BankAPI {
-	private static final long BookAccount = 12345678;
+	private static final String BookAccount = "1234567890123456";
 	
-	public static Boolean requestTransfer(long userAccount, long amount) {
+	public static Boolean requestTransfer(String userAccount, long amount) {
 		try {
-			URL url = new URL("localhost:3000/transfer");
+			URL url = new URL("http://localhost:3000/transfer");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("POST");
 			
@@ -27,7 +27,8 @@ public class BankAPI {
 			if (responseCode == HttpURLConnection.HTTP_OK) { //success
 				BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 				String response = in.readLine();
-				if (response == "Transaction Success") {
+				System.out.println("RESP bank: "+response);
+				if (response == "{\"status\":200,\"values\":\"Transaction Success\"}") {
 					return true;
 				}
 			}

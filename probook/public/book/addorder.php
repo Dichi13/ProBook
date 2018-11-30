@@ -3,18 +3,27 @@
     require_once("../../app/init.php");
     require_once("../../app/core/functions.php");
 
-    $bookurl = "localhost:8080/BookWebservice/bookServlet?wsdl";
-    $bookWS = new SoapClient($bookurl); 
+    $bookWS = new SoapClient("http://localhost:8080/BookWebservice/bookServlet?wsdl"); 
+    
     $token = $_COOKIE['has_login'];
-    $cardnumber =  getCardNumFromUserId(getgetUserIdFromToken($token));
-
-    $params = array("book_id" => $_GET['book-id'], "num" => $_GET['amount'] , "account" => $cardnumber);
-    $response = $bookWS->buyBook($params);
-
-
+    $userid  = getUserIdFromToken($token);
+    $cardnumber =  getCardNumFromUserId($userid);
     $jumlah = $_REQUEST['amount'];
     $bookid = $_REQUEST['book-id'];
     $timezone = date_default_timezone_set("Asia/Jakarta");
     $date = date('Y/m/d');
-    NewPurchase($userid, $bookid, $jumlah, $date);
+
+    $params = array(
+        "arg0" => $_GET['book-id'], 
+        "arg1" => $_GET['amount'] , 
+        "arg2" => $cardnumber,
+    );
+    
+    $response = $bookWS->__soapCall("buyBook", array($params));
+    
+    echo $response->return;
+
+    if ($response->return > 0) {
+        NewPurchase($response, $userid, $bookid, $jumlah, $date);
+    }
 ?>

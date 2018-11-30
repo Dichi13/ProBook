@@ -125,7 +125,7 @@ public class BookWS implements CoreFunction {
 	}
 	
 	@WebMethod
-	public int buyBook(String book_id, int num, long account) {
+	public int buyBook(String book_id, int num, String account) {
 		// calculate price amount
 		long amount = num;
 		SQLConn conn = new SQLConn();
@@ -143,7 +143,7 @@ public class BookWS implements CoreFunction {
 		}
 		// request transfer to bankws
 		Boolean transfered = BankAPI.requestTransfer(account, amount);
-		
+		System.out.println("Transfer is complete = "+transfered);
 		//if success, create and insert purchased row to db
 		if (transfered) {
 			try {
