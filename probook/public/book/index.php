@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="../stylesheets/main.css">
     <link rel="stylesheet" href="../stylesheets/detail.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="../stylesheets/search-result.css" />
 </head>
 <body>
     <div class="container">   
@@ -55,36 +56,52 @@
                         <p>{{book.longDesc}}</p>
                     </div>
                 </section>
+            
+                <section class="section-order">
+                    <h3 class="heading-tertiary">Order</h3>
+                    <form id="form-input">
+                        <div>
+                            Jumlah:
+                            <select name="amount" id="amount">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="book-id" id ="book-id" value="<?php echo $bookid ?>">
+                        <div class="align-right">
+                           <button class="btn-order" id="btn-order">Order</button> 
+                        </div>
+                    </form>
+                    <h3 class="heading-tertiary">Rekomendasi</h3>
+                    <div class="img-div">
+                        <img src={{rec.img}} alt="harry-1">
+                    </div>
+                    <div class="book-content">
+                        <div class="book-heading">
+                            <h3 class="book-title">{{rec.title}}</h3>
+                            <h4 >{{rec.author[0]}} - 
+                                <span id="rate-avg-{{rec.isbn}}"></span> / 5.0 (
+                                    <span id="vote-{{rec.isbn}}"></span> votes )</h4>
+                        </div>
+                        <div class="book-description">
+                            <p>{{rec.shortDesc}}</p>
+                        </div>
+                    </div>
+                    <!-- modal -->
+                    <div class="modal" id="modal-order">
+                        <div class="modal-content">
+                            <span id="close">&times;</span>
+                                <img src="../images/checked.png" alt="checked" class="img-checked">
+                                <h3><strong>Pemesanan Berhasil!</strong></h3>
+                                <p>Nomor Transaksi: <?php echo $transactionID; ?></p>
+                        </div>
+                    </div>
+                    <!-- End Of Modal -->
+                </section>
             </div>
-            <section class="section-order">
-                <h3 class="heading-tertiary">Order</h3>
-                <form id="form-input">
-                    <div>
-                        Jumlah:
-                        <select name="amount" id="amount">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <input type="hidden" name="book-id" id ="book-id" value="<?php echo $bookid ?>">
-                    <div class="align-right">
-                       <button class="btn-order" id="btn-order">Order</button> 
-                    </div>
-                </form>
-                <!-- modal -->
-                <div class="modal" id="modal-order">
-                    <div class="modal-content">
-                        <span id="close">&times;</span>
-                            <img src="../images/checked.png" alt="checked" class="img-checked">
-                            <h3><strong>Pemesanan Berhasil!</strong></h3>
-                            <p>Nomor Transaksi: <?php echo $transactionID; ?></p>
-                    </div>
-                </div>
-                <!-- End Of Modal -->
-            </section>
             <section class="section-reviews">
                 <h3 class="heading-tertiary">Reviews</h3>
                 <?php include("../../app/fetchreview.php"); ?>
@@ -101,14 +118,26 @@
         return {
             getBook: function(search_query){
                 return $soap.post(base_url, "getBook", {query: search_query, accesstype : "isbn"});
+            },
+
+            getRecommendation: function(cat){
+                return $soap.post(base_url, "getRecommendation", {category : cat});
             }
         }
     }])
     app.controller('bookDetailsCTRL', function($scope, bookWebService){
+        $scope.getRecommendation = function(category){
+        bookWebService.getRecommendation(category).then(function(response){
+                temp = JSON.parse(response);
+                $scope.rec = temp[0];
+            });
+        }
         $scope.getDetails = function(search_query){
             bookWebService.getBook(search_query).then(function(response){
                 temp = JSON.parse(response);
                 $scope.book = temp[0];
+                $scope.getRecommendation($scope.book.category);
+                console.log(temp[0]);
             });
         }
         $scope.getDetails(<?php echo (string)$_GET['book-id']; ?>);
