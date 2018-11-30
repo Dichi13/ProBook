@@ -3,6 +3,8 @@ package com;
 import java.io.*;
 import java.net.URL;
 import java.net.HttpURLConnection;
+import org.json.simple.*;
+import org.json.simple.parser.*;
 
 public class BankAPI {
 	private static final String BookAccount = "1234567890123456";
@@ -27,8 +29,10 @@ public class BankAPI {
 			if (responseCode == HttpURLConnection.HTTP_OK) { //success
 				BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 				String response = in.readLine();
+				JSONParser parser = new JSONParser();
+				JSONObject resp = (JSONObject)parser.parse(response);
 				System.out.println("RESP bank: "+response);
-				if (response == "{\"status\":200,\"values\":\"Transaction Success\"}") {
+				if ((String)resp.get("values") == "Transaction Success") {
 					return true;
 				}
 			}

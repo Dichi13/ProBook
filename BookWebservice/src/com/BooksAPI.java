@@ -9,7 +9,7 @@ import org.json.simple.parser.*;
 
 public class BooksAPI {
 	private static final String newLine  = System.getProperty("line.separator");
-	private static final String APIkey = "AIzaSyB1VsjBx7OkK5jRdcDr8UXy6lssKRyY4-c";
+	private static final String APIkey = "AIzaSyAxWJ-h1_LxvY8_zECU9eHd6SDQRU98EUI";//"AIzaSyB1VsjBx7OkK5jRdcDr8UXy6lssKRyY4-c";
 	
 	public static JSONObject queryGoogleBooks(String query, String stype) {
 		try {
