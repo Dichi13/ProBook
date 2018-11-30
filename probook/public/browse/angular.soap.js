@@ -1,5 +1,4 @@
 angular.module('angularSoap', [])
-
 .factory("$soap",['$q',function($q){
 	return {
 		post: function(url, action, params){
