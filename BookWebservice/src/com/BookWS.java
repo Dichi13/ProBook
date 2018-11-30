@@ -31,7 +31,7 @@ public class BookWS implements CoreFunction {
 			
 			book.put("author", (volumeinfo.get("authors")));
 
-			book.put("category", (String)((JSONArray)volumeinfo.get("categories")).get(0));
+			book.put("category", ((JSONArray)volumeinfo.get("categories")).get(0));
 			
 			book.put("shortDesc", (searchinfo.get("textSnippet")));
 			

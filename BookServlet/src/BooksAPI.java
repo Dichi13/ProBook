@@ -13,7 +13,7 @@ public class BooksAPI {
 		try {
 			String type = stype != null ? stype : "intitle";
 			String urlstring = "https://www.googleapis.com/books/v1/volumes?q="+type+":"+URLEncoder.encode(query, "UTF-8")+"&key="+APIkey; 
-			
+			System.out.println(urlstring);
 			URL url = new URL(urlstring);
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			
