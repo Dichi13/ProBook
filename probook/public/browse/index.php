@@ -56,6 +56,7 @@
                         <div class="book-content">
                             <div class="book-heading">
                                 <h3 class="book-title">{{book.title}}</h3>
+                                <h3>{{book.price==-1 ? "Not for sale" : "Rp"+book.price}}<h3>
                                 <h4 >{{book.author[0]}} - 
                                     <span id="rate-avg-{{book.isbn}}"></span> / 5.0 (
                                         <span id="vote-{{book.isbn}}"></span> votes )</h4>

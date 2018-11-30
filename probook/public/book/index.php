@@ -59,8 +59,9 @@
             
                 <section class="section-order">
                     <h3 class="heading-tertiary">Order</h3>
+                    <h3 id="price">Per book : Rp{{book.price}}</h3>
                     <form id="form-input">
-                        <div>
+                        <div id="total-selector">
                             Jumlah:
                             <select name="amount" id="amount">
                                 <option value="1">1</option>
@@ -76,7 +77,7 @@
                         </div>
                     </form>
                     <div id="bagian-rekomendasi">
-                        <h3 class="heading-tertiary">Rekomendasi</h3>
+                        <h3 class="heading-tertiary">Recommendation</h3>
                         <div class="img-div">
                             <img src={{rec.img}} alt="harry-1">
                         </div>
@@ -97,7 +98,7 @@
                     <div class="modal" id="modal-order">
                         <div class="modal-content">
                             <span id="close">&times;</span>
-                                <img src="../images/checked.png" alt="checked" class="img-checked">
+                                <img src="../images/checked.png" alt="checked" id="response-icon" class="img-checked">
                                 <h3><strong id="success-message"></strong></h3>
                                 <p id="message-code"></p>
                         </div>
@@ -119,8 +120,8 @@
         var base_url = "http://localhost:8080/BookWebservice/bookServlet";
 
         return {
-            getBook: function(search_query){
-                return $soap.post(base_url, "getBook", {query: search_query, accesstype : "isbn"});
+            getBook: function(search_query, access_type){
+                return $soap.post(base_url, "getBook", {query: search_query, accesstype : access_type});
             },
 
             getRecommendation: function(id, cat){
@@ -136,14 +137,28 @@
                     $scope.rec = temp[0];
                     console.log(temp[0]);
                 }else{
-                    document.getElementById("bagian-rekomendasi").innerHTML="";
+                    bookWebService.getBook(cat, "subject").then(function(response){
+                        temp = JSON.parse(response);
+                        if (temp[0] != null) {
+                            $scope.rec = temp[0];
+                        } else {
+                            document.getElementById("bagian-rekomendasi").innerHTML="<h3 class=\"heading-tertiary\">Recommendation</h3>No recommendation for this book.";
+                        }
+                    });
                 }
             });
         }
         $scope.getDetails = function(search_query){
-            bookWebService.getBook(search_query).then(function(response){
+            bookWebService.getBook(search_query, "isbn").then(function(response){
                 temp = JSON.parse(response);
                 $scope.book = temp[0];
+                if ($scope.book.price == -1) {
+                    document.getElementById("price").innerHTML="Not for sale.";
+                    document.getElementById("btn-order").disabled = true;
+                    document.getElementById("btn-order").style.backgroundColor = "#BBB";
+                    document.getElementById("btn-order").style.borderColor = "#999";
+                    document.getElementById("total-selector").style.visibility = "hidden";
+                }
                 $scope.getRecommendation($scope.book.isbn, $scope.book.category);
                 console.log(temp[0]);
             });

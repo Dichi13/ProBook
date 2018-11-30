@@ -90,4 +90,3 @@ Perubahan Pro-Book :
 5. Pembelian Buku : 13516075
 6. Detail Buku + Rekomendasi : 13516033
 7. AngularJS : 13516033, 13516075
-8. 
