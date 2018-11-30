@@ -1,5 +1,5 @@
 <?php 
-    $queryGetTransaction = "SELECT purchaseid, bookid, bookname, bookimg, jumlah, review, rating, purchaseid, tanggal FROM book NATURAL JOIN purchase WHERE userid=$userid";
+    $queryGetTransaction = "SELECT purchaseid, bookid, jumlah, review, rating, tanggal FROM purchase WHERE userid=$userid";
     
     $result = queryMysql($queryGetTransaction);
     $count = mysqli_num_rows($result);
@@ -43,19 +43,31 @@
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $purchaseid = $row['purchaseid'];
             $bookid = $row['bookid'];
-            $bookname = $row['bookname'];
-            $bookimg = $row['bookimg'];
             $jumlah = $row['jumlah'];
             $review = $row['review'];
             $rating = $row['rating'];
             $tanggal = $row['tanggal'];
             $tanggalIndo = PrintDate($tanggal);
             $nomor_transaksi = $row['purchaseid'];
+
+            $client = new SoapClient("http://localhost:8080/BookWebservice/bookServlet?wsdl");
+
+            $params = array(
+                "arg0" => $bookid,
+                "arg1" => "isbn",
+            );
+
+            $response = $client->__soapCall("getBook", array($params));
+            $book = json_decode($response->return, true)[0];
+
+            $bookname = $book["title"];
+            $bookimg = $book["img"];
+
             if ($review === NULL && $rating === NULL) {
                 echo "<div class='section-book'>
                         <div class='book-detail'>
                             <div class='img-div'>
-                                <img src='../images/$bookimg'>
+                                <img src='$bookimg'>
                             </div>
                             <h3 class='book-title'>$bookname</h3>
                             <p>Jumlah : $jumlah</p>
@@ -74,7 +86,7 @@
                 echo "<div class='section-book'>
                         <div class='book-detail'>
                             <div class='img-div'>
-                                <img src='../images/$bookimg'>
+                                <img src='$bookimg'>
                             </div>
                             <h3 class='book-title'>$bookname</h3>
                             <p>Jumlah : $jumlah</p>
