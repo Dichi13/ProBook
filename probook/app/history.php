@@ -86,7 +86,7 @@
                 echo "<div class='section-book'>
                         <div class='book-detail'>
                             <div class='img-div'>
-                                <img src='../images/$bookimg'>
+                                <img src='$bookimg'>
                             </div>
                             <h3 class='book-title'>$bookname</h3>
                             <p>Jumlah : $jumlah</p>
