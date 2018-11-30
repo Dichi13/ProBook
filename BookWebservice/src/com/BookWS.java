@@ -114,7 +114,7 @@ public class BookWS implements CoreFunction {
 	@WebMethod
 	public String getRecommendation(String book_id, String category) {
 		String sqlquery = "SELECT book_id, sum(total) FROM purchased WHERE category='"+category
-				+"' AND book_id<>'"+book_id+"' GROUP BY book_id SORT BY sum(total) DESC limit 1;";
+				+"' AND book_id<>'"+book_id+"' GROUP BY book_id ORDER BY sum(total) DESC limit 1;";
 		SQLConn conn = new SQLConn();
 		conn.connect();
 		try {
