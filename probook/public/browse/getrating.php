@@ -4,14 +4,12 @@
         $bookid = $_GET['bookid'];
         $querySearch = "SELECT AVG(rating) AS avg_rating FROM purchase WHERE bookid = '$bookid'";
         $result = mysqli_query($db, $querySearch);
-        $row = mysqli_fetch_array($result, MYSQLI_ASSOC)
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-        $count = mysqli_num_rows($result);
-
-        if($count == 1){
+        if($row['avg_rating'] != NULL){
             echo $row['avg_rating'];
         }else{
-            echo 0;
+            echo "0";
         }
     }
 ?>
