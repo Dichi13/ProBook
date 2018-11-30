@@ -24,6 +24,6 @@
     echo $response->return;
 
     if ($response->return > 0) {
-        NewPurchase($response, $userid, $bookid, $jumlah, $date);
+        NewPurchase($response->return, $userid, $bookid, $jumlah, $date);
     }
 ?>

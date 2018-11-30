@@ -31,8 +31,11 @@ public class BankAPI {
 				String response = in.readLine();
 				JSONParser parser = new JSONParser();
 				JSONObject resp = (JSONObject)parser.parse(response);
-				System.out.println("RESP bank: "+response);
-				if ((String)resp.get("values") == "Transaction Success") {
+
+				System.out.println("RESP bank: "+resp.toJSONString());
+				String strresp = (String)resp.get("values");
+				System.out.println("RESP bank: "+strresp);
+				if (strresp.equals("Transaction Success")) {
 					return true;
 				}
 			}

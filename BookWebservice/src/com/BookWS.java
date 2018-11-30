@@ -9,6 +9,9 @@ import java.sql.*;
 
 @WebService
 public class BookWS implements CoreFunction {
+	
+	private static final Boolean initDB = true;
+	
 	public BookWS(){
 	}		
 	
@@ -18,6 +21,7 @@ public class BookWS implements CoreFunction {
 		
 		for (int i = 0; i < books.size(); i++)  {
 			JSONObject book = new JSONObject();
+			JSONObject saleinfo = (JSONObject) ((JSONObject)books.get(i)).get("saleInfo");
 			JSONObject searchinfo = (JSONObject) ((JSONObject)books.get(i)).get("searchInfo");
 			JSONObject volumeinfo = (JSONObject) ((JSONObject)books.get(i)).get("volumeInfo"); 
 			if (searchinfo == null || volumeinfo== null)
@@ -30,6 +34,11 @@ public class BookWS implements CoreFunction {
 			JSONArray isbn = (JSONArray)volumeinfo.get("industryIdentifiers");
 			if (isbn!=null) {
 				book.put("isbn", ((JSONObject)(isbn).get(0)).get("identifier"));
+				
+//				if (initDB && saleinfo.get("retailPrice") != null) {
+	//				SQLConn conn = SQLConn
+		//		}
+				
 			} else {
 				continue;
 			}
@@ -50,7 +59,7 @@ public class BookWS implements CoreFunction {
 			JSONObject links = (JSONObject)volumeinfo.get("imageLinks");
 			if (links != null) {
 				book.put("img", links.get("thumbnail"));
-			} else {
+			} else { //no thumbnail default pic
 				book.put("img", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1024px-No_image_3x4.svg.png");
 			}
 			
@@ -148,17 +157,19 @@ public class BookWS implements CoreFunction {
 		if (transfered) {
 			try {
 				conn.connect();
-				String book = getBook(book_id, "isbn");
 				JSONParser parser = new JSONParser();
-				String category = (String)((JSONObject)parser.parse(book)).get("category");
+				JSONArray books = (JSONArray) parser.parse(getBook(book_id, "isbn"));
+				JSONObject book = (JSONObject) books.get(0);
+				String category = (String)(book).get("category");
 				sqlquery = "INSERT INTO purchased (book_id, category, total) "
 						 + "VALUES ('"+book_id+"','"+category+"', "+num+")";
-				conn.query(sqlquery);
+				conn.update(sqlquery);
+				
 				sqlquery = "SELECT LAST_INSERT_ID() as id_transaksi";
 				ResultSet rs = conn.query(sqlquery);
 				rs.next();
 				int purchase_id = rs.getInt(1);
-			// return purchase_id
+			
 				return purchase_id;
 			} catch (Exception e) {
 				e.printStackTrace();
