@@ -1,5 +1,6 @@
 <?php 
     $index = 1;
+    include("../../public/browse/getrating.php");
 
     while ($index <= $avg_rating) {
         echo '<img class="review-star-small" src="../images/star_on.png">';

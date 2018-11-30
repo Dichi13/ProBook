@@ -43,8 +43,10 @@
                             <img src="{{book.img}}">
                         </div>
                         <div class="rating">
-                            <!-- <?php include("../../app/ratingstar.php"); ?> -->
-                            <p>RATING / 5.0</p>
+                            <?php 
+                                include("../../app/ratingstar.php"); 
+                                echo "<p>".number_format($avg_rating, 1)." / 5.0</p>";
+                            ?>
                         </div>
                     </div>
                     <div class="left">
