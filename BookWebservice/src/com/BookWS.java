@@ -30,14 +30,24 @@ public class BookWS implements CoreFunction {
 			book.put("isbn", ((JSONObject)((JSONArray)volumeinfo.get("industryIdentifiers")).get(0)).get("identifier"));
 			
 			book.put("author", (volumeinfo.get("authors")));
-
-			book.put("category", ((JSONArray)volumeinfo.get("categories")).get(0));
+			
+			JSONArray categ = (JSONArray)volumeinfo.get("categories");
+			if (categ != null) {
+				book.put("category", categ.get(0));
+			} else {
+				book.put("category", "");
+			}
 			
 			book.put("shortDesc", (searchinfo.get("textSnippet")));
 			
 			book.put("longDesc", (volumeinfo.get("description")));
 			
-			book.put("img", ((JSONObject)volumeinfo.get("imageLinks")).get("thumbnail"));
+			JSONObject links = (JSONObject)volumeinfo.get("imageLinks");
+			if (links != null) {
+				book.put("img", links.get("thumbnail"));
+			} else {
+				book.put("img", "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1024px-No_image_3x4.svg.png");
+			}
 			
 			filtered.add(book);
 		}

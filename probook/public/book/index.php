@@ -45,7 +45,7 @@
                         <div class="rating">
                             <?php 
                                 include("../../app/ratingstar.php"); 
-                                echo "<p>$avg_rating / 5.0</p>";
+                                echo "<p>".number_format($avg_rating, 1)." / 5.0</p>";
                             ?>
                         </div>
                     </div>
