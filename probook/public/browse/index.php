@@ -35,59 +35,75 @@
             </nav>
         </header>
         <main>
-            <section class="section-search">
-                <h2 class="heading-secondary">Search Book</h2>
-                <form action="../searchresult" class="search-form" method="GET" name="search-form">
-                    <input type="text" name="search-book" class="search-form__text-input" id="search-input" placeholder="Input search terms...">
-                    <div id="search-notif"></div>
-                    <div class="set-right">
-                        <input type="submit" value="Search" class="search-form__button" id="search-btn">
-                    </div>
-                </form>
-                <div class="result-count">
-                    <p>Found <u><strong>Dummy Number</strong></u> result(s)</p>
-                </div>
-            </section>
             <div ng-app="bookResults" ng-controller="bookResultsCTRL">
+                <section class="section-search">
+                    <h2 class="heading-secondary">Search Book</h2>
+                    <form action="../searchresult" class="search-form" method="GET" name="search-form">
+                        <input type="text" name="search-book" class="search-form__text-input" id="search-input" placeholder="Input search terms..." ng-model="search_query" ng-change="getResults($event.target.value)">
+                        <div id="search-notif"></div>
+                    </form>
+                    <div class="result-count">
+                        <p></p>
+                        <p>Showing results for <u><strong>{{search_query}}</strong></u></p>
+                        <p>Found <u><strong>Dummy Number</strong></u> result(s)</p>
+                    </div>
+                </section>
                 <div class="section-result" ng-repeat="book in response">
                     <div class="content-section">
                         <div class="img-div">
-                            <img src="../images/'.$bookimg.'" alt="harry-1">
+                            <img src="BELUM" alt="harry-1">
                         </div>
                         <div class="book-content">
                             <div class="book-heading">
-                                <h3 class="book-title" ng-model="book.name"></h3>
-                                <h4 ng-model="book.author"> - <span id="rate-avg">'.$avg_rating.'</span>/5.0 (<span id="total-vote">'.$vote.'</span> votes)</h4>
+                                <h3 class="book-title">{{book.name}}</h3>
+                                <h4 >{{book.author}} - <span id="rate-avg" onload="this.innerHTML=loadRating(book.id)"></span>/5.0 (<span id="total-vote" onload="this.innerHTML=loadVotes(book.id)"></span> votes)</h4>
                             </div>
                             <div class="book-description">
-                                <p ng-model="book.desc"></p>
+                                <p>{{book.desc}}</p>
                             </div>
                         </div>
                     </div>
+                    <form action="../book" class="button-div" method="GET">
+                        <button class="book-detail" name="book-id" value="'.$bookid.'">Detail</button>
+                    </form>
                 </div>
-                <form action="../book" class="button-div" method="GET">
-                    <button class="book-detail" name="book-id" value="'.$bookid.'">Detail</button>
-                </form>
             </div>
         </main>
     </div>
-    <script src="browse.js"></script>
 </body>
 <script>
     var app = angular.module('bookResults', ['angularSoap']);
     app.factory("bookWebService", ['$soap',function($soap){
-        var base_url = "http://localhost:8080/";
+        var base_url = "http://localhost:8080/BookWebservice/bookServlet";
 
         return {
-            GetBooks: function(searchquery){
-                return $soap.post(base_url, "GetBooks", {<ISI INFO BUKU>});
+            getBook: function(search_query){
+                return $soap.post(base_url, "getBook", {query: search_query, accesstype : "intitle"});
             }
         }
     }])
     app.controller('bookResultsCTRL', function($scope, bookWebService){
-        bookWebService.GetBooks($scope.searchquery).then(function(response){
-            $scope.response = response;
-        });
+        $scope.getResults = function(search_query){
+            bookWebService.getBook($scope.search_query).then(function(response){
+                $scope.response = response;
+            });
+        }
     });
+
+    function loadRating(bookid){
+        var xhr =  new XMLHttpRequest();
+
+        xhr.open('GET', 'getrating.php?bookid='+bookid, true);
+        xhr.send();
+        return this.responseText;
+    }
+
+    function loadVotes(bookid){
+        var xhr =  new XMLHttpRequest();
+
+        xhr.open('GET', 'getvotes.php?bookid='+bookid, true);
+        xhr.send();
+        return this.responseText;
+    }
 </script>
 </html>

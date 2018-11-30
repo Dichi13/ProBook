@@ -1,5 +1,4 @@
 /*****************************************************************************\
-
  Javascript "SOAP Client" library
  
  @version: 2.4 - 2007.12.21
@@ -18,6 +17,7 @@ function SOAPClientParameters()
 	this.toXml = function()
 	{
 		var xml = "";
+		var count = 0;
 		for(var p in _pl)
 		{
 			switch(typeof(_pl[p])) 
@@ -26,7 +26,8 @@ function SOAPClientParameters()
                 case "number":
                 case "boolean":
                 case "object":
-                    xml += "<" + p + ">" + SOAPClientParameters._serialize(_pl[p]) + "</" + p + ">";
+					xml += "<arg" + count + ">" + SOAPClientParameters._serialize(_pl[p]) + "</arg" + count + ">";
+					count++;
                     break;
                 default:
                     break;
@@ -163,16 +164,19 @@ SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback,
 	// get namespace
 	var ns = (wsdl.documentElement.attributes["targetNamespace"] + "" == "undefined") ? wsdl.documentElement.attributes.getNamedItem("targetNamespace").nodeValue : wsdl.documentElement.attributes["targetNamespace"].value;
 	// build SOAP request
+	
 	var sr = 
 				"<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
 				"<soap:Envelope " +
 				"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
 				"xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " +
-				"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+				"xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
+				"xmlns:com=\"" + ns + "\">" +
 				"<soap:Body>" +
-				"<" + method + " xmlns=\"" + ns + "\">" +
+				"<com:" + method + ">" +
 				parameters.toXml() +
-				"</" + method + "></soap:Body></soap:Envelope>";
+				"</com:" + method + "></soap:Body></soap:Envelope>";
+
 	// send request
 	var xmlHttp = SOAPClient._getXmlHttp();
 	if (SOAPClient.username && SOAPClient.password){
@@ -201,7 +205,8 @@ SOAPClient._sendSoapRequest = function(url, method, parameters, async, callback,
 SOAPClient._onSendSoapRequest = function(method, async, callback, wsdl, req) 
 {
 	var o = null;
-	var nd = SOAPClient._getElementsByTagName(req.responseXML, method + "Result");
+	var nd = SOAPClient._getElementsByTagName(req.responseXML, method + "Response");
+
 	if(nd.length == 0)
 		nd = SOAPClient._getElementsByTagName(req.responseXML, "return");	// PHP web Service?
 	if(nd.length == 0)
